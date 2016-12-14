@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhoujian.lol/"/>
-  <updated>2016-12-13T20:01:02.291Z</updated>
+  <updated>2016-12-14T05:30:13.265Z</updated>
   <id>http://zhoujian.lol/</id>
   
   <author>
@@ -14,6 +14,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>test</title>
+    <link href="http://zhoujian.lol/2016/12/14/test/"/>
+    <id>http://zhoujian.lol/2016/12/14/test/</id>
+    <published>2016-12-14T05:16:42.000Z</published>
+    <updated>2016-12-14T05:30:13.265Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="test" scheme="http://zhoujian.lol/categories/test/"/>
+    
+      <category term="it" scheme="http://zhoujian.lol/categories/test/it/"/>
+    
+    
+      <category term="python" scheme="http://zhoujian.lol/tags/python/"/>
+    
+      <category term="it" scheme="http://zhoujian.lol/tags/it/"/>
+    
+      <category term="java" scheme="http://zhoujian.lol/tags/java/"/>
+    
+  </entry>
   
   <entry>
     <title>Hello World</title>

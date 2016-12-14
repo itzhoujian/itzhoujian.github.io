@@ -4,6 +4,35 @@
 
     
   <url>
+    <loc>http://zhoujian.lol/2016/12/14/test/</loc>
+    <lastmod>2016-12-14T05:30:13.265Z</lastmod>
+    <data>
+        <display>
+        <title>test</title>
+        <pubTime>2016-12-14T05:16:42.000Z</pubTime>
+        
+        <tag>python</tag>
+         
+        <tag>it</tag>
+         
+        <tag>java</tag>
+         
+         
+           
+             
+              <breadCrumb title="test" url="http://zhoujian.lol/categories/test/"/>
+          
+             
+              <breadCrumb title="it" url="http://zhoujian.lol/categories/test/it/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+  <url>
     <loc>http://zhoujian.lol/2016/12/14/hello-world/</loc>
     <lastmod>2016-12-13T20:01:02.291Z</lastmod>
     <data>
