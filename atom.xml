@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>ZhouJian`s Notes</title>
-  <subtitle>如果你不是xxx二代，那么请记住：勤奋才是改变你命运的唯一捷径。</subtitle>
+  <subtitle>如果你不是官二代、富二代、星二代，那么请记住：勤奋才是改变你命运的唯一捷径。</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhoujian.lol/"/>
-  <updated>2016-12-15T06:42:49.075Z</updated>
+  <updated>2016-12-15T07:13:34.649Z</updated>
   <id>http://zhoujian.lol/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://zhoujian.lol/2016/12/15/%E8%B0%88%E8%B0%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%87%A0%E4%B8%AA%E9%98%B6%E6%AE%B5/"/>
     <id>http://zhoujian.lol/2016/12/15/谈谈程序员的几个阶段/</id>
     <published>2016-12-15T06:26:22.000Z</published>
-    <updated>2016-12-15T06:42:49.075Z</updated>
+    <updated>2016-12-15T07:13:34.649Z</updated>
     
     <content type="html"><![CDATA[<h2 id="关于程序员的几个阶段"><a href="#关于程序员的几个阶段" class="headerlink" title="关于程序员的几个阶段"></a>关于程序员的几个阶段</h2><p>每个程序员、或者说每个工作者都应该有自己的职业规划，如果看到这里的朋友没有自己的职业规划，希望你可以思考一下自己的将来。<br>LZ常常思考自己的未来,鉴于文笔拙劣，经历有限。以下内容摘录于互联网，LZ拿出来，自勉、共勉之。</p>
 <h2 id="第一阶段：三年"><a href="#第一阶段：三年" class="headerlink" title="第一阶段：三年"></a>第一阶段：三年</h2><p>我认为三年对于程序员来说是第一个门槛，这个阶段将会淘汰掉一批不适合写代码的人。这一阶段，我们走出校园，迈入社会，成为一名程序员，正式从书本上的内容迈向真正的企业级开发。我们知道如何团队协作、如何使用项目管理工具、项目版本如何控制、我们写的代码如何测试如何在线上运行等等，积累了一定的开发经验，也对代码有了一定深入的认识，是一个比较纯粹的Coder的阶段</p>
@@ -31,7 +31,7 @@
 <p>关于项目经验，我认为并发编程网的创始人方腾飞老师讲的一段话非常好：<br>介绍产品时面试官会考察应聘者的沟通能力和思考能力，我们大部分情况都是做产品的一个功能或一个模块，但是即使是这样，自己有没有把整个系统架构或产品搞清楚，并能介绍清楚，为什么做这个系统？这个系统的价值是什么？这个系统有哪些功能？优缺点有哪些？如果让你重新设计这个系统你会如何设计？</p>
 <p>我觉得这就已经足以概括了。也许你仅仅工作一年，也许你做的是项目中微不足道的模块，当然这些一定是你的劣势且无法改变，但是如何弥补这个劣势，从方老师的话中我总结几点：<br>1、明确你的项目到底是做什么的，有哪些功能<br>2、明确你的项目的整体架构，在面试的时候能够清楚地画给面试官看并且清楚地指出从哪里调用到哪里、使用什么方式调用<br>3、明确你的模块在整个项目中所处的位置及作用<br>4、明确你的模块用到了哪些技术，更好一些的可以再了解一下整个项目用到了哪些技术</p>
 <p>在你无法改变自己的工作年限、自己的不那么有说服力的项目经验的情况下（这一定是扣分项），可以通过这种方式来一定程度上地弥补并且增进面试官对你的好感度。</p>
-<h2 id="关于奔三程序员之后转行的反驳。"><a href="#关于奔三程序员之后转行的反驳。" class="headerlink" title="关于奔三程序员之后转行的反驳。"></a>关于奔三程序员之后转行的反驳。</h2><p>讲到了奔三程序员的困惑，大致说的是三十岁之后程序员要转行之类的云云.<br><img src="http://zhoujian.lol/path/to/640.png" alt="image"></p>
+<h2 id="关于奔三程序员之后转行的反驳。"><a href="#关于奔三程序员之后转行的反驳。" class="headerlink" title="关于奔三程序员之后转行的反驳。"></a>关于奔三程序员之后转行的反驳。</h2><p>讲到了奔三程序员的困惑，大致说的是三十岁之后程序员要转行之类的云云.<br><img src="http://zhoujian.lol/images/640.png" alt="image"></p>
 ]]></content>
     
     <summary type="html">
@@ -40,8 +40,12 @@
     
     </summary>
     
+      <category term="乱谈" scheme="http://zhoujian.lol/categories/%E4%B9%B1%E8%B0%88/"/>
     
-      <category term="it 程序员" scheme="http://zhoujian.lol/tags/it-%E7%A8%8B%E5%BA%8F%E5%91%98/"/>
+    
+      <category term="it" scheme="http://zhoujian.lol/tags/it/"/>
+    
+      <category term="程序员" scheme="http://zhoujian.lol/tags/%E7%A8%8B%E5%BA%8F%E5%91%98/"/>
     
   </entry>
   
