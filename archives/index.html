@@ -103,15 +103,15 @@
 
 
 
-<meta name="description" content="胡编乱写">
+<meta name="description" content="如果你不是官二代、富二代、星二代，那么请记住：勤奋才是改变你命运的唯一捷径。">
 <meta property="og:type" content="website">
 <meta property="og:title" content="ZhouJian`s Notes">
 <meta property="og:url" content="http://zhoujian.lol/archives/index.html">
 <meta property="og:site_name" content="ZhouJian`s Notes">
-<meta property="og:description" content="胡编乱写">
+<meta property="og:description" content="如果你不是官二代、富二代、星二代，那么请记住：勤奋才是改变你命运的唯一捷径。">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ZhouJian`s Notes">
-<meta name="twitter:description" content="胡编乱写">
+<meta name="twitter:description" content="如果你不是官二代、富二代、星二代，那么请记住：勤奋才是改变你命运的唯一捷径。">
 
 
 
@@ -190,7 +190,7 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">如果你不是官二代、富二代、星二代，那么请记住：勤奋才是改变你命运的唯一捷径。</p>
+  <p class="site-subtitle">胡编乱写</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -365,8 +365,25 @@
           
 
 
-          
-
+          <% if (!index && post.comments){ %>
+    <% if (theme.duoshuo.on) { %>
+      <%- partial('comments/duoshuo', {
+          key: post.path,
+          title: post.title,
+          url: config.url+url_for(post.path),
+          }) %>
+    <% } else if (theme.youyan.on) { %>
+        <%- partial('comments/youyan') %>
+    <% } else if (theme.disqus.on) { %>
+        <%- partial('comments/disqus', {
+            shortname: theme.disqus.shortname
+          }) %>
+    <% } else if (config.disqus_shortname) { %>
+        <%- partial('comments/disqus', {
+            shortname: config.disqus_shortname
+          }) %>
+    <% } %>
+<% } %>
         </div>
         
           
@@ -392,7 +409,7 @@
                src="/uploads/hexo.jpg"
                alt="zhoujian" />
           <p class="site-author-name" itemprop="name">zhoujian</p>
-          <p class="site-description motion-element" itemprop="description">胡编乱写</p>
+          <p class="site-description motion-element" itemprop="description">如果你不是官二代、富二代、星二代，那么请记住：勤奋才是改变你命运的唯一捷径。</p>
         </div>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">

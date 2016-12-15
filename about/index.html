@@ -103,20 +103,20 @@
 
 
 
-<meta name="description" content="关于我一只学习后台的小菜鸟，欢迎分享知识。
+<meta name="description" content="关于我一只学习后台开发的小菜鸟，欢迎分享知识。
 From YQL
 QQ：137799892Email: 137799892@qq.com">
 <meta property="og:type" content="website">
 <meta property="og:title" content="about">
 <meta property="og:url" content="http://zhoujian.lol/about/index.html">
 <meta property="og:site_name" content="ZhouJian`s Notes">
-<meta property="og:description" content="关于我一只学习后台的小菜鸟，欢迎分享知识。
+<meta property="og:description" content="关于我一只学习后台开发的小菜鸟，欢迎分享知识。
 From YQL
 QQ：137799892Email: 137799892@qq.com">
-<meta property="og:updated_time" content="2016-12-15T07:06:08.017Z">
+<meta property="og:updated_time" content="2016-12-15T07:39:16.058Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="about">
-<meta name="twitter:description" content="关于我一只学习后台的小菜鸟，欢迎分享知识。
+<meta name="twitter:description" content="关于我一只学习后台开发的小菜鸟，欢迎分享知识。
 From YQL
 QQ：137799892Email: 137799892@qq.com">
 
@@ -203,7 +203,7 @@ QQ：137799892Email: 137799892@qq.com">
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">如果你不是官二代、富二代、星二代，那么请记住：勤奋才是改变你命运的唯一捷径。</p>
+  <p class="site-subtitle">胡编乱写</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -323,7 +323,7 @@ QQ：137799892Email: 137799892@qq.com">
 
     
     
-      <h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>一只学习后台的小菜鸟，欢迎分享知识。</p>
+      <h2 id="关于我"><a href="#关于我" class="headerlink" title="关于我"></a>关于我</h2><p>一只学习后台开发的小菜鸟，欢迎分享知识。</p>
 <p>From YQL</p>
 <p>QQ：137799892<br>Email: 137799892@qq.com</p>
 
@@ -335,12 +335,25 @@ QQ：137799892Email: 137799892@qq.com">
           
 
 
-          
-  <div class="comments" id="comments">
-    
-  </div>
-
-
+          <% if (!index && post.comments){ %>
+    <% if (theme.duoshuo.on) { %>
+      <%- partial('comments/duoshuo', {
+          key: post.path,
+          title: post.title,
+          url: config.url+url_for(post.path),
+          }) %>
+    <% } else if (theme.youyan.on) { %>
+        <%- partial('comments/youyan') %>
+    <% } else if (theme.disqus.on) { %>
+        <%- partial('comments/disqus', {
+            shortname: theme.disqus.shortname
+          }) %>
+    <% } else if (config.disqus_shortname) { %>
+        <%- partial('comments/disqus', {
+            shortname: config.disqus_shortname
+          }) %>
+    <% } %>
+<% } %>
         </div>
         
           
@@ -366,7 +379,7 @@ QQ：137799892Email: 137799892@qq.com">
                src="/uploads/hexo.jpg"
                alt="zhoujian" />
           <p class="site-author-name" itemprop="name">zhoujian</p>
-          <p class="site-description motion-element" itemprop="description">胡编乱写</p>
+          <p class="site-description motion-element" itemprop="description">如果你不是官二代、富二代、星二代，那么请记住：勤奋才是改变你命运的唯一捷径。</p>
         </div>
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
