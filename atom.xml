@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhoujian.lol/"/>
-  <updated>2016-12-15T07:35:22.645Z</updated>
+  <updated>2016-12-16T15:37:36.638Z</updated>
   <id>http://zhoujian.lol/</id>
   
   <author>
@@ -14,6 +14,35 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>大数据之企业级服务器</title>
+    <link href="http://zhoujian.lol/2016/12/16/%E5%A4%A7%E6%95%B0%E6%8D%AE%E4%B9%8B%E4%BC%81%E4%B8%9A%E7%BA%A7%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+    <id>http://zhoujian.lol/2016/12/16/大数据之企业级服务器/</id>
+    <published>2016-12-16T15:34:43.000Z</published>
+    <updated>2016-12-16T15:37:36.638Z</updated>
+    
+    <content type="html"><![CDATA[<p>LZ接触过hp系列的服务器，这里只对hp-DL580、hp-DL388、hp-DL380、hp-storageworksP4500等型号浅谈.</p>
+<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><p>企业级：属于高档服务器,具有高内存带宽，大容量热插拔硬盘和热插拔电源，具有超强的数据处理能力<br>机架式：机架式服务器的外形看来不像计算机，而像交换机.<br>结构(几U)：U是一种表示服务器外部尺寸的单位,是unit的缩略语,1U=4.445cm</p>
+<p>注意：CPU数量绝对不是CPU核心 1个CPU叫单处理器，2个CPU叫双处理器。1个CPU可以是双核货单核。</p>
+<h2 id="HP-DL380（此款已停产）"><a href="#HP-DL380（此款已停产）" class="headerlink" title="HP-DL380（此款已停产）"></a>HP-DL380（此款已停产）</h2><p>此款服务器，售价在2-3W之间，内存标配为12G,可扩展到192G ,硬盘标配为584GB</p>
+<h2 id="hp-DL388"><a href="#hp-DL388" class="headerlink" title="hp-DL388"></a>hp-DL388</h2><p>此款服务器，售价在2W左右，内存标配为32G,可扩展到768G ,硬盘标配为584GB</p>
+<h2 id="HP-DL580"><a href="#HP-DL580" class="headerlink" title="HP-DL580"></a>HP-DL580</h2><p>此款服务器，售价在5.5W左右，内存标配为32G 可以最大扩展到2T内存以上，硬盘标配为4T。</p>
+<h2 id="HP-P4500"><a href="#HP-P4500" class="headerlink" title="HP-P4500"></a>HP-P4500</h2><p>此款系列服务器绝对高配了，售价在10W-20W之间，最大存储可达到24T</p>
+<h2 id="附带真实工作环境中的机房拓扑图"><a href="#附带真实工作环境中的机房拓扑图" class="headerlink" title="附带真实工作环境中的机房拓扑图"></a>附带真实工作环境中的机房拓扑图</h2><p><img src="http://zhoujian.lol/images/拓扑图1.png" alt="image"><br><img src="http://zhoujian.lol/images/拓扑图2.png" alt="image"></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;LZ接触过hp系列的服务器，这里只对hp-DL580、hp-DL388、hp-DL380、hp-storageworksP4500等型号浅谈.&lt;/p&gt;
+&lt;h2 id=&quot;名词解释&quot;&gt;&lt;a href=&quot;#名词解释&quot; class=&quot;headerlink&quot; title=&quot;名词解释&quot;
+    
+    </summary>
+    
+      <category term="技术" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>谈谈程序员的几个阶段</title>
