@@ -311,6 +311,148 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/17/大数据之SSH协议/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="zhoujian">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/uploads/hexo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZhouJian`s Notes">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZhouJian`s Notes" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/17/大数据之SSH协议/" itemprop="url">
+                  大数据之SSH协议
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-17T23:42:43+08:00">
+                2016-12-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术，大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">技术，大数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <!--/noindex-->
+        
+          
+            <h2 id="浅述"><a href="#浅述" class="headerlink" title="浅述"></a>浅述</h2><p>简单点说，ssh是网络安全外壳协议。用于计算机之间的加密协议，即使信息被截获密码也不会泄露（为什么自己去百度，这里不做重点）</p>
+<p>在大数据领域中ssh用于安全登录，被称为免密码登录。</p>
+<h2 id="通常用法"><a href="#通常用法" class="headerlink" title="通常用法"></a>通常用法</h2><p>ssh-keygen [-t][-p] rsa/dsa(默认rsa算法可以去掉参数t)<br>此命令会在.ssh文件夹下生产id_rsa id_rsa.pub或id_dsa id_dsa.pub,即私钥 公钥</p>
+<h2 id="实现免密码登录"><a href="#实现免密码登录" class="headerlink" title="实现免密码登录"></a>实现免密码登录</h2><p>1.通过scp 公钥 用户名@主机名:/.ssh 将公钥拷贝到另一个主机中<br>2.在另一台主机中 通过cat 公钥 &gt; /.ssh/authorized_keys 进行授权操作。<br>上面2步可以简化为一步<br>ssh-copy-id 实现生成公私钥的同时进行了授权操作，建议优先使用。</p>
+<h2 id="聊聊ssh验证机制"><a href="#聊聊ssh验证机制" class="headerlink" title="聊聊ssh验证机制"></a>聊聊ssh验证机制</h2><p>ssh有2种身份验证机制<br>1.用户名+密码（用xshell或secureCRT连接使用ssh支持这种机制）<br>2.密钥验证<br>目标主机会跟根据授权文件中是否有请求方的公钥信息，如果有则根据对方公钥生成加密信息，再将加密信息发给请求连接方，请求连接方根据自己的私钥去解密生成解密文件在发送给目标主机，目标主机判断正确则允许连接。</p>
+<h2 id="常见的连接错误"><a href="#常见的连接错误" class="headerlink" title="常见的连接错误"></a>常见的连接错误</h2><p>ssh_exchange_identification: Connection closed by remote host<br>方法一.把SSH连接数改大<br>方法二.检查/etc/hosts.deny和/etc/hosts.allow里面是否屏蔽了某些帐户</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
   <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/16/大数据之企业级服务器/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -377,6 +519,17 @@
 
                 
                 
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
               
             </span>
           
@@ -409,7 +562,7 @@
           <!--/noindex-->
         
           
-            <p>LZ接触过hp系列的服务器，这里只对hp-DL580、hp-DL388、hp-DL380、hp-storageworksP4500等型号浅谈.</p>
+            <p>LZ接触过hp系列的服务器，这里只对hp-DL580、hp-DL388、hp-DL380、hp-P4500等型号浅谈.</p>
 <h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><p>企业级：属于高档服务器,具有高内存带宽，大容量热插拔硬盘和热插拔电源，具有超强的数据处理能力<br>机架式：机架式服务器的外形看来不像计算机，而像交换机.<br>结构(几U)：U是一种表示服务器外部尺寸的单位,是unit的缩略语,1U=4.445cm</p>
 <p>注意：CPU数量绝对不是CPU核心 1个CPU叫单处理器，2个CPU叫双处理器。1个CPU可以是双核货单核。</p>
 <h2 id="HP-DL380（此款已停产）"><a href="#HP-DL380（此款已停产）" class="headerlink" title="HP-DL380（此款已停产）"></a>HP-DL380（此款已停产）</h2><p>此款服务器，售价在2-3W之间，内存标配为12G,可扩展到192G ,硬盘标配为584GB</p>
@@ -632,7 +785,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">2</span>
+              <span class="site-state-item-count">3</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -640,7 +793,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">4</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
