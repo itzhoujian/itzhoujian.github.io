@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhoujian.lol/"/>
-  <updated>2016-12-17T15:52:03.847Z</updated>
+  <updated>2016-12-18T06:24:57.189Z</updated>
   <id>http://zhoujian.lol/</id>
   
   <author>
@@ -16,11 +16,11 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>大数据之SSH协议</title>
+    <title>SSH协议</title>
     <link href="http://zhoujian.lol/2016/12/17/SSH%E5%8D%8F%E8%AE%AE/"/>
     <id>http://zhoujian.lol/2016/12/17/SSH协议/</id>
     <published>2016-12-17T15:42:43.000Z</published>
-    <updated>2016-12-17T15:52:03.847Z</updated>
+    <updated>2016-12-18T06:24:57.189Z</updated>
     
     <content type="html"><![CDATA[<h2 id="浅述"><a href="#浅述" class="headerlink" title="浅述"></a>浅述</h2><p>简单点说，ssh是网络安全外壳协议。用于计算机之间的加密协议，即使信息被截获密码也不会泄露（为什么自己去百度，这里不做重点）</p>
 <p>在大数据领域中ssh用于安全登录，被称为免密码登录。</p>
