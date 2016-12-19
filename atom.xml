@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhoujian.lol/"/>
-  <updated>2016-12-19T02:16:03.786Z</updated>
+  <updated>2016-12-19T02:19:19.487Z</updated>
   <id>http://zhoujian.lol/</id>
   
   <author>
@@ -20,11 +20,11 @@
     <link href="http://zhoujian.lol/2016/12/19/%E5%B8%B8%E8%A7%81%E6%98%93%E6%B7%B7%E6%B7%B7%E6%B7%86%E5%91%BD%E4%BB%A4/"/>
     <id>http://zhoujian.lol/2016/12/19/常见易混混淆命令/</id>
     <published>2016-12-19T02:15:23.000Z</published>
-    <updated>2016-12-19T02:16:03.786Z</updated>
+    <updated>2016-12-19T02:19:19.487Z</updated>
     
     <summary type="html">
     
-      linux
+      原创
     
     </summary>
     
@@ -68,7 +68,7 @@
     <link href="http://zhoujian.lol/2016/12/16/%E4%BC%81%E4%B8%9A%E7%BA%A7%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     <id>http://zhoujian.lol/2016/12/16/企业级服务器/</id>
     <published>2016-12-16T15:34:43.000Z</published>
-    <updated>2016-12-18T11:04:50.704Z</updated>
+    <updated>2016-12-19T02:19:27.605Z</updated>
     
     <content type="html"><![CDATA[<p>LZ接触过hp系列的服务器，这里只对hp-DL580、hp-DL388、hp-DL380、hp-P4500等型号浅谈.</p>
 <h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><p>企业级：属于高档服务器,具有高内存带宽，大容量热插拔硬盘和热插拔电源，具有超强的数据处理能力<br>机架式：机架式服务器的外形看来不像计算机，而像交换机.<br>结构(几U)：U是一种表示服务器外部尺寸的单位,是unit的缩略语,1U=4.445cm</p>
@@ -82,8 +82,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;LZ接触过hp系列的服务器，这里只对hp-DL580、hp-DL388、hp-DL380、hp-P4500等型号浅谈.&lt;/p&gt;
-&lt;h2 id=&quot;名词解释&quot;&gt;&lt;a href=&quot;#名词解释&quot; class=&quot;headerlink&quot; title=&quot;名词解释&quot;&gt;&lt;/a&gt;名词解释&lt;/h
+      原创
     
     </summary>
     

@@ -4,29 +4,8 @@
 
     
   <url>
-    <loc>http://zhoujian.lol/2016/12/19/%E5%B8%B8%E8%A7%81%E6%98%93%E6%B7%B7%E6%B7%B7%E6%B7%86%E5%91%BD%E4%BB%A4/</loc>
-    <lastmod>2016-12-19T02:16:03.786Z</lastmod>
-    <data>
-        <display>
-        <title>常见易混混淆命令</title>
-        <pubTime>2016-12-19T02:15:23.000Z</pubTime>
-        
-         
-           
-             
-              <breadCrumb title="技术" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
-          
-             
-              <breadCrumb title="Linux" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/Linux/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>http://zhoujian.lol/2016/12/16/%E4%BC%81%E4%B8%9A%E7%BA%A7%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
-    <lastmod>2016-12-18T11:04:50.704Z</lastmod>
+    <lastmod>2016-12-19T02:19:27.605Z</lastmod>
     <data>
         <display>
         <title>企业级服务器</title>
@@ -39,6 +18,27 @@
           
              
               <breadCrumb title="大数据" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://zhoujian.lol/2016/12/19/%E5%B8%B8%E8%A7%81%E6%98%93%E6%B7%B7%E6%B7%B7%E6%B7%86%E5%91%BD%E4%BB%A4/</loc>
+    <lastmod>2016-12-19T02:19:19.487Z</lastmod>
+    <data>
+        <display>
+        <title>常见易混混淆命令</title>
+        <pubTime>2016-12-19T02:15:23.000Z</pubTime>
+        
+         
+           
+             
+              <breadCrumb title="技术" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+             
+              <breadCrumb title="Linux" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/Linux/"/>
           
         </display>
     </data>
