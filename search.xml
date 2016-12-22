@@ -3,8 +3,22 @@
   
     
     <entry>
+      <title><![CDATA[zookeeper]]></title>
+      <url>%2F2016%2F12%2F22%2Fzookeeper%2F</url>
+      <content type="text"><![CDATA[是什么分布式协调服务框架，那么怎么理解分布式，其实就是一个完整的应用或功能或业务被分成若干个独立的部分或子业务，部署在不同的服务器上，所有部分去共同完成一个功能。优点：负载由单个节点转移到多个，提高效率缓解压力 避免了单个节点失效，整个系统崩溃的危险 提高利用率，子业务可以被反复使用而协调服务说白了就是为其它应用程序服务的。zookeeper本身也是分布式的(半数以上节点存活就能提供服务) 功能总的来说有2个管理用户提交的数据(存储或读取)为数据提供监听服务 应用场景主从协调(HA功能)、统一配置管理、统一名称服务(dubbo服务注册)、服务节点动态上下线、分布式共享锁 集群角色分配原理(选举)以3台zookeepr为例，当启动第一个服务启动时发现配置文件中由3个server就会通过paxos算法进行投票，发现集群中没有leader，并且只有自己一个节点，就会投票给自己。当第二个服务启动后也发现集群中没有leader但是有一个folwer就会投给自己和第一个服务各一票，第一个服务也发现新节点也会重新投票，投给自己和对方一票，这时票数时2:2由于节点数已经过半所以paxos根据2个节点的myid号大小，将大的变为leader，其他节点在启动就会以这个leader为主，leader在维护各个folwer中的数据(这里由些偏差，待更新……) java客户端操作及监听器原理 public class SimpleZkClient { private static final String CONNECTSTRING = “192.168.25.61:2181,192.168.25.62:2181,192.168.25.63:2181”; private static final int SESSIONTIMEOUT = 200000; ZooKeeper zkClient = null; @Before public void init() throws IOException { // 初始化 Watcher监听节点的变化 此监听可以被后面的使用 zkClient = new ZooKeeper(CONNECTSTRING, SESSIONTIMEOUT, new Watcher() { @Override public void process(WatchedEvent event) { System.out.println(event.getType() + &quot;---------- &quot; + event.getPath()); try { // 因为只会监听一次，实际业务场景要时时监听 zkClient.getChildren(&quot;/&quot;, true); } catch (Exception e) { e.printStackTrace(); } } }); } // 创建节点到zk中 @Test public void testCreate() throws KeeperException, InterruptedException { // 1.znode路径及名称 2。节点的内容 3。安全策略 4。创建节点的模式（有4种 瞬时（带序号） 持久） zkClient.create(&quot;/uuuu&quot;, &quot;test&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL); } // 判断zode是否存在 返回许多元数据stat @Test public void testExit() throws KeeperException, InterruptedException { Stat stat = zkClient.exists(&quot;/&quot;, false); System.out.println(stat == null ? &quot;not exists&quot; : &quot;exists&quot;); } // 获取zk中的子节点 @Test public void testGet() throws KeeperException, InterruptedException { // true 表示给&quot;/&quot;节点加监听事件 用上一个监听 List&lt;String&gt; list = zkClient.getChildren(&quot;/&quot;, true); for (String string : list) { System.out.println(string); } Thread.sleep(Long.MAX_VALUE); } // 获取zode的数据 @Test public void getData() throws KeeperException, InterruptedException{ //1.znode的路径名 2.是否监听 3.获取版本 默认最新的 byte[] data = zkClient.getData(&quot;/uuuu&quot;, false, null); System.out.println(new String(data)); } //删除znode @Test public void deleteZnode() throws InterruptedException, KeeperException{ //参数-1，表示删除所有版本 zkClient.delete(&quot;/uuuu&quot;, -1); } //修改znode @Test public void setData() throws KeeperException, InterruptedException{ zkClient.setData(&quot;/test&quot;, &quot;i miss tangwei&quot;.getBytes(), -1); } } 其实所谓的监听就是服务端和客户端的通信(底层socket协议或rpc协议 )，zkClient有个连接zkServer的线程，当调用某个方法操作znode的时候如:调用getClildren()时会想zk集群中传递客户端的ip、port、path（监听的路径），zk会保存这些信息，当监听的路径发生改变时zk集群会根据以上信息找到zkClient的listern线程，listern线程调用process方法触发事件反馈给客户端处理。 分布式应用服务器上下线动态感知程序开发需求：客户端怎么判断服务器变化情况(宕机、添加)]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[JVM浅谈]]></title>
+      <url>%2F2016%2F12%2F19%2FJVM%E6%B5%85%E8%B0%88%2F</url>
+      <content type="text"></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[常见易混淆命令]]></title>
-      <url>%2F2016%2F12%2F19%2F%E5%B8%B8%E8%A7%81%E6%98%93%E6%B7%B7%E6%B7%86%E5%91%BD%E4%BB%A4%2F</url>
+      <url>%2F2016%2F12%2F19%2F%E5%B8%B8%E8%A7%81%E6%98%93%E6%B7%B7%E6%B7%86%E5%91%BD%E4%BB%A4(%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%E4%B8%AD......)%2F</url>
       <content type="text"></content>
     </entry>
 
@@ -12,7 +26,7 @@
     <entry>
       <title><![CDATA[SSH协议]]></title>
       <url>%2F2016%2F12%2F17%2FSSH%E5%8D%8F%E8%AE%AE%2F</url>
-      <content type="text"><![CDATA[浅述简单点说，ssh是网络安全外壳协议。用于计算机之间的加密协议，即使信息被截获密码也不会泄露（为什么自己去百度，这里不做重点） 在大数据领域中ssh用于安全登录，被称为免密码登录。 通常用法ssh-keygen [-t][-p] rsa/dsa(默认rsa算法可以去掉参数t)此命令会在.ssh文件夹下生产id_rsa id_rsa.pub或id_dsa id_dsa.pub,即私钥 公钥 实现免密码登录1.通过scp 公钥 用户名@主机名:/.ssh 将公钥拷贝到另一个主机中2.在另一台主机中 通过cat 公钥 &gt; /.ssh/authorized_keys 进行授权操作。上面2步可以简化为一步ssh-copy-id 实现生成公私钥的同时进行了授权操作，建议优先使用。 聊聊ssh验证机制ssh有2种身份验证机制1.用户名+密码（用xshell或secureCRT连接使用ssh支持这种机制）2.密钥验证目标主机会跟根据授权文件中是否有请求方的公钥信息，如果有则根据对方公钥生成加密信息，再将加密信息发给请求连接方，请求连接方根据自己的私钥去解密生成解密文件在发送给目标主机，目标主机判断正确则允许连接。 常见的连接错误ssh_exchange_identification: Connection closed by remote host方法一.把SSH连接数改大方法二.检查/etc/hosts.deny和/etc/hosts.allow里面是否屏蔽了某些帐户]]></content>
+      <content type="text"><![CDATA[浅述简单点说，ssh是网络安全外壳协议。用于计算机之间的加密协议，即使信息被截获密码也不会泄露（为什么自己去百度，这里不做重点） 在大数据领域中ssh用于安全登录，被称为免密码登录。 通常用法ssh-keygen [-t][-p] rsa/dsa(默认rsa算法可以去掉参数t)此命令会在.ssh文件夹下生产id_rsa id_rsa.pub或id_dsa id_dsa.pub,即私钥 公钥 实现免密码登录1.通过scp 公钥 用户名@主机名:/.ssh 将公钥拷贝到另一个主机中2.在另一台主机中 通过cat 公钥 &gt; /.ssh/authorized_keys 进行授权操作。上面2步可以简化为一步ssh-copy-id 实现拷贝公钥的同时进行了授权操作，建议优先使用。 聊聊ssh验证机制ssh有2种身份验证机制1.用户名+密码（用xshell或secureCRT连接使用ssh支持这种机制）2.密钥验证目标主机会跟根据授权文件中是否有请求方的公钥信息，如果有则根据对方公钥生成加密信息，再将加密信息发给请求连接方，请求连接方根据自己的私钥去解密生成解密文件在发送给目标主机，目标主机判断正确则允许连接。 常见的连接错误ssh_exchange_identification: Connection closed by remote host方法一.把SSH连接数改大方法二.检查/etc/hosts.deny和/etc/hosts.allow里面是否屏蔽了某些帐户]]></content>
     </entry>
 
     
