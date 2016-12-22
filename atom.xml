@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhoujian.lol/"/>
-  <updated>2016-12-22T14:34:04.107Z</updated>
+  <updated>2016-12-22T15:35:59.420Z</updated>
   <id>http://zhoujian.lol/</id>
   
   <author>
@@ -20,11 +20,10 @@
     <link href="http://zhoujian.lol/2016/12/22/zookeeper/"/>
     <id>http://zhoujian.lol/2016/12/22/zookeeper/</id>
     <published>2016-12-22T14:31:53.000Z</published>
-    <updated>2016-12-22T14:34:04.107Z</updated>
+    <updated>2016-12-22T15:35:59.420Z</updated>
     
     <content type="html"><![CDATA[<h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><p>分布式协调服务框架，那么怎么理解分布式，其实就是一个完整的应用或功能或业务被分成若干个独立的部分或子业务，部署在不同的服务器上，所有部分去共同完成一个功能。<br>优点：负载由单个节点转移到多个，提高效率缓解压力<br>      避免了单个节点失效，整个系统崩溃的危险<br>      提高利用率，子业务可以被反复使用<br>而协调服务说白了就是为其它应用程序服务的。<br>zookeeper本身也是分布式的(半数以上节点存活就能提供服务)</p>
 <h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><p>总的来说有2个<br>管理用户提交的数据(存储或读取)<br>为数据提供监听服务</p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>主从协调(HA功能)、统一配置管理、统一名称服务(dubbo服务注册)、服务节点动态上下线、分布式共享锁</p>
 <h2 id="集群角色分配原理-选举"><a href="#集群角色分配原理-选举" class="headerlink" title="集群角色分配原理(选举)"></a>集群角色分配原理(选举)</h2><p>以3台zookeepr为例，当启动第一个服务启动时发现配置文件中由3个server就会通过paxos算法进行投票，发现集群中没有leader，并且只有自己一个节点，就会投票给自己。当第二个服务启动后也发现集群中没有leader但是有一个folwer就会投给自己和第一个服务各一票，第一个服务也发现新节点也会重新投票，投给自己和对方一票，这时票数时2:2由于节点数已经过半所以paxos根据2个节点的myid号大小，将大的变为leader，其他节点在启动就会以这个leader为主，leader在维护各个folwer中的数据(这里由些偏差，待更新……)</p>
 <h2 id="java客户端操作及监听器原理"><a href="#java客户端操作及监听器原理" class="headerlink" title="java客户端操作及监听器原理"></a>java客户端操作及监听器原理</h2><hr>
 <p>public class SimpleZkClient {<br>    private static final String CONNECTSTRING = “192.168.25.61:2181,192.168.25.62:2181,192.168.25.63:2181”;<br>    private static final int SESSIONTIMEOUT = 200000;<br>    ZooKeeper zkClient = null;</p>
@@ -97,7 +96,9 @@ public void setData() throws KeeperException, InterruptedException{
 }
 </code></pre><p>}<br><img src="http://zhoujian.lol/images/zk监听器.png" alt="image"></p>
 <p>其实所谓的监听就是服务端和客户端的通信(底层socket协议或rpc协议 )，zkClient有个连接zkServer的线程，当调用某个方法操作znode的时候如:调用getClildren()时会想zk集群中传递客户端的ip、port、path（监听的路径），zk会保存这些信息，当监听的路径发生改变时zk集群会根据以上信息找到zkClient的listern线程，listern线程调用process方法触发事件反馈给客户端处理。</p>
-<h2 id="分布式应用服务器上下线动态感知程序开发"><a href="#分布式应用服务器上下线动态感知程序开发" class="headerlink" title="分布式应用服务器上下线动态感知程序开发"></a>分布式应用服务器上下线动态感知程序开发</h2><p>需求：客户端怎么判断服务器变化情况(宕机、添加)</p>
+<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>主从协调(HA功能)、统一配置管理、统一名称服务(dubbo服务注册)、服务节点动态上下线、分布式共享锁</p>
+<h3 id="分布式应用服务器上下线动态感知程序开发"><a href="#分布式应用服务器上下线动态感知程序开发" class="headerlink" title="分布式应用服务器上下线动态感知程序开发"></a>分布式应用服务器上下线动态感知程序开发</h3><p>需求：客户端实时洞察到服务器的变化(宕机、添加)<br>解决思路：首先，服务器启动时就要向zk中注册Ephemeral node 信息(包括服务器地址，节点名，序列号……),然后，客户端启动时就要去getChildren获取当前在线服务器列表，并注册监听。当服务器某个节点挂掉之后临时znode会被删除，zk就会通知客户端的监听线程，客户端监听到上下znode变化事件就会调用process方法，在方法中重新获取在线服务器列表在监听。</p>
+<h3 id="分布式共享锁程序开发"><a href="#分布式共享锁程序开发" class="headerlink" title="分布式共享锁程序开发"></a>分布式共享锁程序开发</h3><p>在集中式系统中有冲突、线程问题用sychronized锁机制，在分布式中通常会想到第三方去解决 如zookeeper。<br>需求：很多客户端都去请求共享资源(网络接口)，可能会有冲突情况，怎么解决<br>解决思路：客户端到zk中去注册锁信息(uuid或其它序号)，每次客户端请求共享资源时都会通过zk去请求，zk会根据各个客户端的锁信息如序号取最小值(或最大值)，获取资源成功后删除锁信息，这是触发监听事件通知其他客户端在获取资源，删除的客户端重新生成序号在排队等待。</p>
 ]]></content>
     
     <summary type="html">
@@ -110,6 +111,8 @@ public void setData() throws KeeperException, InterruptedException{
     
       <category term="大数据" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
     
+    
+      <category term="zookeeper" scheme="http://zhoujian.lol/tags/zookeeper/"/>
     
   </entry>
   
