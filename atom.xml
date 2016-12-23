@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhoujian.lol/"/>
-  <updated>2016-12-22T15:35:59.420Z</updated>
+  <updated>2016-12-23T15:26:22.343Z</updated>
   <id>http://zhoujian.lol/</id>
   
   <author>
@@ -14,6 +14,20 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>网站或APP点击流日志数据挖掘系统</title>
+    <link href="http://zhoujian.lol/2016/12/23/%E7%BD%91%E7%AB%99%E6%88%96APP%E7%82%B9%E5%87%BB%E6%B5%81%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%B3%BB%E7%BB%9F/"/>
+    <id>http://zhoujian.lol/2016/12/23/网站或APP点击流日志数据挖掘系统/</id>
+    <published>2016-12-23T15:26:22.000Z</published>
+    <updated>2016-12-23T15:26:22.343Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>zookeeper</title>
@@ -121,7 +135,7 @@ public void setData() throws KeeperException, InterruptedException{
     <link href="http://zhoujian.lol/2016/12/19/JVM%E6%B5%85%E8%B0%88/"/>
     <id>http://zhoujian.lol/2016/12/19/JVM浅谈/</id>
     <published>2016-12-19T02:30:19.000Z</published>
-    <updated>2016-12-19T02:30:57.957Z</updated>
+    <updated>2016-12-22T15:41:00.712Z</updated>
     
     <summary type="html">
     
@@ -141,7 +155,7 @@ public void setData() throws KeeperException, InterruptedException{
     <link href="http://zhoujian.lol/2016/12/19/%E5%B8%B8%E8%A7%81%E6%98%93%E6%B7%B7%E6%B7%86%E5%91%BD%E4%BB%A4(%E6%8C%81%E7%BB%AD%E6%9B%B4%E6%96%B0%E4%B8%AD......)/"/>
     <id>http://zhoujian.lol/2016/12/19/常见易混淆命令(持续更新中......)/</id>
     <published>2016-12-19T02:15:23.000Z</published>
-    <updated>2016-12-19T02:22:28.398Z</updated>
+    <updated>2016-12-22T15:36:21.400Z</updated>
     
     <summary type="html">
     
@@ -154,6 +168,8 @@ public void setData() throws KeeperException, InterruptedException{
       <category term="Linux" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/Linux/"/>
     
     
+      <category term="linux" scheme="http://zhoujian.lol/tags/linux/"/>
+    
   </entry>
   
   <entry>
@@ -161,7 +177,7 @@ public void setData() throws KeeperException, InterruptedException{
     <link href="http://zhoujian.lol/2016/12/17/SSH%E5%8D%8F%E8%AE%AE/"/>
     <id>http://zhoujian.lol/2016/12/17/SSH协议/</id>
     <published>2016-12-17T15:42:43.000Z</published>
-    <updated>2016-12-22T08:28:54.203Z</updated>
+    <updated>2016-12-22T15:40:49.459Z</updated>
     
     <content type="html"><![CDATA[<h2 id="浅述"><a href="#浅述" class="headerlink" title="浅述"></a>浅述</h2><p>简单点说，ssh是网络安全外壳协议。用于计算机之间的加密协议，即使信息被截获密码也不会泄露（为什么自己去百度，这里不做重点）</p>
 <p>在大数据领域中ssh用于安全登录，被称为免密码登录。</p>
@@ -182,6 +198,8 @@ public void setData() throws KeeperException, InterruptedException{
       <category term="大数据" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
     
     
+      <category term="ssh" scheme="http://zhoujian.lol/tags/ssh/"/>
+    
   </entry>
   
   <entry>
@@ -189,7 +207,7 @@ public void setData() throws KeeperException, InterruptedException{
     <link href="http://zhoujian.lol/2016/12/16/%E4%BC%81%E4%B8%9A%E7%BA%A7%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     <id>http://zhoujian.lol/2016/12/16/企业级服务器/</id>
     <published>2016-12-16T15:34:43.000Z</published>
-    <updated>2016-12-19T02:19:27.605Z</updated>
+    <updated>2016-12-22T15:40:22.398Z</updated>
     
     <content type="html"><![CDATA[<p>LZ接触过hp系列的服务器，这里只对hp-DL580、hp-DL388、hp-DL380、hp-P4500等型号浅谈.</p>
 <h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><p>企业级：属于高档服务器,具有高内存带宽，大容量热插拔硬盘和热插拔电源，具有超强的数据处理能力<br>机架式：机架式服务器的外形看来不像计算机，而像交换机.<br>结构(几U)：U是一种表示服务器外部尺寸的单位,是unit的缩略语,1U=4.445cm</p>
@@ -211,6 +229,8 @@ public void setData() throws KeeperException, InterruptedException{
     
       <category term="大数据" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
     
+    
+      <category term="hp服务器" scheme="http://zhoujian.lol/tags/hp%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
   </entry>
   
