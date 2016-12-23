@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhoujian.lol/"/>
-  <updated>2016-12-23T15:26:22.343Z</updated>
+  <updated>2016-12-23T15:30:38.726Z</updated>
   <id>http://zhoujian.lol/</id>
   
   <author>
@@ -20,12 +20,32 @@
     <link href="http://zhoujian.lol/2016/12/23/%E7%BD%91%E7%AB%99%E6%88%96APP%E7%82%B9%E5%87%BB%E6%B5%81%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%B3%BB%E7%BB%9F/"/>
     <id>http://zhoujian.lol/2016/12/23/网站或APP点击流日志数据挖掘系统/</id>
     <published>2016-12-23T15:26:22.000Z</published>
-    <updated>2016-12-23T15:26:22.343Z</updated>
+    <updated>2016-12-23T15:30:38.726Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h2><p>“Web点击流日志”包含着网站运营很重要的信息，通过日志分析，我们可以知道网站的访问量，哪个网页访问人数最多，哪个网页最有价值，广告转化率、访客的来源信息，访客的终端信息等。</p>
+<h2 id="数据来源"><a href="#数据来源" class="headerlink" title="数据来源"></a>数据来源</h2><p>数据主要是用户的点击行为记录，获取方式通常是在页面内预埋js代码，为页面想要监听的标签绑定事件，只要用户点击或移动到标签就会触发ajax请求到后台servlet，用log4j记录下日志信息，在后台服务器nginx、tomcat不断产生增长日志文件。</p>
+<h2 id="数据量分析"><a href="#数据量分析" class="headerlink" title="数据量分析"></a>数据量分析</h2><p>对于一般的中型网站(10W的PV以上)，每天会产生1G以上的web日志文件。<br>对于大型或超大型网站,可能每小时就会产生10G的数据量。<br>具体来说，比如某电子商务网站，在线团购业务。每日PV数100w，独立IP数5w。用户通常在工作日上午10:00-12:00和下午15:00-18:00访问量最大。日间主要是通过PC端浏览器访问，休息日及夜间通过移动设备访问较多。网站搜索浏量占整个网站的80%，PC用户不足1%的用户会消费，移动用户有5%会消费。</p>
+<p>对于日志的这种规模的数据，用HADOOP进行日志分析，是最适合不过的了。</p>
+<h2 id="流程图解析"><a href="#流程图解析" class="headerlink" title="流程图解析"></a>流程图解析</h2><p><img src="http://zhoujian.lol/images/数据流程图.png" alt="images"></p>
+<p>数据采集：定制开发采集程序，或使用开源框架FLUME<br>数据预处理：定制开发mapreduce程序运行于hadoop集群<br>数据仓库技术：基于hadoop之上的Hive<br>数据导出：基于hadoop的sqoop数据导入导出工具<br>数据可视化：定制开发web程序或使用kettle(etl工具)等产品<br>整个过程的流程调度：hadoop生态圈中的oozie工具或其他类似开源产品</p>
+<h2 id="项目技术架构图"><a href="#项目技术架构图" class="headerlink" title="项目技术架构图"></a>项目技术架构图</h2><p><img src="http://zhoujian.lol/images/技术架构图.png" alt="image"></p>
+<h2 id="推荐系统架构"><a href="#推荐系统架构" class="headerlink" title="推荐系统架构"></a>推荐系统架构</h2><p><img src="http://zhoujian.lol/images/推荐系统.jpg" alt="image"></p>
+]]></content>
     
     <summary type="html">
     
+      原创
+    
     </summary>
     
+      <category term="技术" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="大数据" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+    
+      <category term="推荐系统" scheme="http://zhoujian.lol/tags/%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/"/>
+    
+      <category term="数据分析" scheme="http://zhoujian.lol/tags/%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/"/>
     
   </entry>
   
@@ -207,7 +227,7 @@ public void setData() throws KeeperException, InterruptedException{
     <link href="http://zhoujian.lol/2016/12/16/%E4%BC%81%E4%B8%9A%E7%BA%A7%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     <id>http://zhoujian.lol/2016/12/16/企业级服务器/</id>
     <published>2016-12-16T15:34:43.000Z</published>
-    <updated>2016-12-22T15:40:22.398Z</updated>
+    <updated>2016-12-23T15:31:29.978Z</updated>
     
     <content type="html"><![CDATA[<p>LZ接触过hp系列的服务器，这里只对hp-DL580、hp-DL388、hp-DL380、hp-P4500等型号浅谈.</p>
 <h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><p>企业级：属于高档服务器,具有高内存带宽，大容量热插拔硬盘和热插拔电源，具有超强的数据处理能力<br>机架式：机架式服务器的外形看来不像计算机，而像交换机.<br>结构(几U)：U是一种表示服务器外部尺寸的单位,是unit的缩略语,1U=4.445cm</p>
@@ -230,7 +250,7 @@ public void setData() throws KeeperException, InterruptedException{
       <category term="大数据" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
     
     
-      <category term="hp服务器" scheme="http://zhoujian.lol/tags/hp%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+      <category term="服务器" scheme="http://zhoujian.lol/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
     
   </entry>
   
@@ -239,7 +259,7 @@ public void setData() throws KeeperException, InterruptedException{
     <link href="http://zhoujian.lol/2016/12/15/%E8%B0%88%E8%B0%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%87%A0%E4%B8%AA%E9%98%B6%E6%AE%B5/"/>
     <id>http://zhoujian.lol/2016/12/15/谈谈程序员的几个阶段/</id>
     <published>2016-12-15T06:26:22.000Z</published>
-    <updated>2016-12-15T07:35:22.645Z</updated>
+    <updated>2016-12-23T15:32:36.730Z</updated>
     
     <content type="html"><![CDATA[<h2 id="关于程序员的几个阶段"><a href="#关于程序员的几个阶段" class="headerlink" title="关于程序员的几个阶段"></a>关于程序员的几个阶段</h2><p>每个程序员、或者说每个工作者都应该有自己的职业规划，如果看到这里的朋友没有自己的职业规划，希望你可以思考一下自己的将来。<br>LZ常常思考自己的未来,鉴于文笔拙劣，阅历浅薄。以下内容摘录于互联网，LZ拿出来，自勉、共勉之。</p>
 <h2 id="第一阶段：三年"><a href="#第一阶段：三年" class="headerlink" title="第一阶段：三年"></a>第一阶段：三年</h2><p>我认为三年对于程序员来说是第一个门槛，这个阶段将会淘汰掉一批不适合写代码的人。这一阶段，我们走出校园，迈入社会，成为一名程序员，正式从书本上的内容迈向真正的企业级开发。我们知道如何团队协作、如何使用项目管理工具、项目版本如何控制、我们写的代码如何测试如何在线上运行等等，积累了一定的开发经验，也对代码有了一定深入的认识，是一个比较纯粹的Coder的阶段</p>
@@ -262,9 +282,9 @@ public void setData() throws KeeperException, InterruptedException{
       <category term="乱谈" scheme="http://zhoujian.lol/categories/%E4%B9%B1%E8%B0%88/"/>
     
     
-      <category term="it" scheme="http://zhoujian.lol/tags/it/"/>
+      <category term="程序猿" scheme="http://zhoujian.lol/tags/%E7%A8%8B%E5%BA%8F%E7%8C%BF/"/>
     
-      <category term="程序员" scheme="http://zhoujian.lol/tags/%E7%A8%8B%E5%BA%8F%E5%91%98/"/>
+      <category term="码农" scheme="http://zhoujian.lol/tags/%E7%A0%81%E5%86%9C/"/>
     
   </entry>
   

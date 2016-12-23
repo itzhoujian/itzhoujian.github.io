@@ -4,15 +4,70 @@
 
     
   <url>
+    <loc>http://zhoujian.lol/2016/12/15/%E8%B0%88%E8%B0%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%87%A0%E4%B8%AA%E9%98%B6%E6%AE%B5/</loc>
+    <lastmod>2016-12-23T15:32:36.730Z</lastmod>
+    <data>
+        <display>
+        <title>谈谈程序员的几个阶段</title>
+        <pubTime>2016-12-15T06:26:22.000Z</pubTime>
+        
+        <tag>程序猿</tag>
+         
+        <tag>码农</tag>
+         
+         
+           
+             
+              <breadCrumb title="乱谈" url="http://zhoujian.lol/categories/%E4%B9%B1%E8%B0%88/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://zhoujian.lol/2016/12/16/%E4%BC%81%E4%B8%9A%E7%BA%A7%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
+    <lastmod>2016-12-23T15:31:29.978Z</lastmod>
+    <data>
+        <display>
+        <title>企业级服务器</title>
+        <pubTime>2016-12-16T15:34:43.000Z</pubTime>
+        
+        <tag>服务器</tag>
+         
+         
+           
+             
+              <breadCrumb title="技术" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+             
+              <breadCrumb title="大数据" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zhoujian.lol/2016/12/23/%E7%BD%91%E7%AB%99%E6%88%96APP%E7%82%B9%E5%87%BB%E6%B5%81%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%B3%BB%E7%BB%9F/</loc>
-    <lastmod>2016-12-23T15:26:22.343Z</lastmod>
+    <lastmod>2016-12-23T15:30:38.726Z</lastmod>
     <data>
         <display>
         <title>网站或APP点击流日志数据挖掘系统</title>
         <pubTime>2016-12-23T15:26:22.000Z</pubTime>
         
+        <tag>推荐系统</tag>
+         
+        <tag>数据分析</tag>
+         
          
            
+             
+              <breadCrumb title="技术" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+             
+              <breadCrumb title="大数据" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+          
         </display>
     </data>
     </url>
@@ -48,29 +103,6 @@
         <pubTime>2016-12-17T15:42:43.000Z</pubTime>
         
         <tag>ssh</tag>
-         
-         
-           
-             
-              <breadCrumb title="技术" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
-          
-             
-              <breadCrumb title="大数据" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>http://zhoujian.lol/2016/12/16/%E4%BC%81%E4%B8%9A%E7%BA%A7%E6%9C%8D%E5%8A%A1%E5%99%A8/</loc>
-    <lastmod>2016-12-22T15:40:22.398Z</lastmod>
-    <data>
-        <display>
-        <title>企业级服务器</title>
-        <pubTime>2016-12-16T15:34:43.000Z</pubTime>
-        
-        <tag>hp服务器</tag>
          
          
            
@@ -131,28 +163,6 @@
     </url>
 
     
-    
-  <url>
-    <loc>http://zhoujian.lol/2016/12/15/%E8%B0%88%E8%B0%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%87%A0%E4%B8%AA%E9%98%B6%E6%AE%B5/</loc>
-    <lastmod>2016-12-15T07:35:22.645Z</lastmod>
-    <data>
-        <display>
-        <title>谈谈程序员的几个阶段</title>
-        <pubTime>2016-12-15T06:26:22.000Z</pubTime>
-        
-        <tag>it</tag>
-         
-        <tag>程序员</tag>
-         
-         
-           
-             
-              <breadCrumb title="乱谈" url="http://zhoujian.lol/categories/%E4%B9%B1%E8%B0%88/"/>
-          
-        </display>
-    </data>
-    </url>
-
     
     
     
