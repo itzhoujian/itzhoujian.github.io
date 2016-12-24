@@ -4,6 +4,72 @@
 
     
   <url>
+    <loc>http://zhoujian.lol/2016/12/24/FTP%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/</loc>
+    <lastmod>2016-12-24T12:13:34.921Z</lastmod>
+    <data>
+        <display>
+        <title>FTP接口数据采集</title>
+        <pubTime>2016-12-24T12:08:48.000Z</pubTime>
+        
+        <tag>数据采集</tag>
+         
+         
+           
+             
+              <breadCrumb title="技术" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+             
+              <breadCrumb title="大数据" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://zhoujian.lol/2016/12/24/HDFS%E5%8E%9F%E7%90%86/</loc>
+    <lastmod>2016-12-24T12:12:34.821Z</lastmod>
+    <data>
+        <display>
+        <title>HDFS原理</title>
+        <pubTime>2016-12-24T12:11:43.000Z</pubTime>
+        
+        <tag>HDFS</tag>
+         
+         
+           
+             
+              <breadCrumb title="HDFS" url="http://zhoujian.lol/categories/HDFS/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://zhoujian.lol/2016/12/24/shell%E8%84%9A%E6%9C%AC%E5%AE%9A%E6%97%B6%E9%87%87%E9%9B%86%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE/</loc>
+    <lastmod>2016-12-24T12:11:07.275Z</lastmod>
+    <data>
+        <display>
+        <title>shell脚本定时采集日志数据</title>
+        <pubTime>2016-12-24T14:31:53.000Z</pubTime>
+        
+        <tag>shell脚本</tag>
+         
+         
+           
+             
+              <breadCrumb title="技术" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
+          
+             
+              <breadCrumb title="大数据" url="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>http://zhoujian.lol/2016/12/15/%E8%B0%88%E8%B0%88%E7%A8%8B%E5%BA%8F%E5%91%98%E7%9A%84%E5%87%A0%E4%B8%AA%E9%98%B6%E6%AE%B5/</loc>
     <lastmod>2016-12-23T15:32:36.730Z</lastmod>
     <data>

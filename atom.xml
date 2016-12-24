@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://zhoujian.lol/"/>
-  <updated>2016-12-23T15:30:38.726Z</updated>
+  <updated>2016-12-24T12:11:07.275Z</updated>
   <id>http://zhoujian.lol/</id>
   
   <author>
@@ -14,6 +14,85 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>shell脚本定时采集日志数据</title>
+    <link href="http://zhoujian.lol/2016/12/24/shell%E8%84%9A%E6%9C%AC%E5%AE%9A%E6%97%B6%E9%87%87%E9%9B%86%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE/"/>
+    <id>http://zhoujian.lol/2016/12/24/shell脚本定时采集日志数据/</id>
+    <published>2016-12-24T14:31:53.000Z</published>
+    <updated>2016-12-24T12:11:07.275Z</updated>
+    
+    <content type="html"><![CDATA[<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">#set java env</div><div class="line">export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/</div><div class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</div><div class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</div><div class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:$PATH</div><div class="line"></div><div class="line">#set hadoop env</div><div class="line">export HADOOP_HOME=/app/hadoop/hadoop-2.2.0</div><div class="line">export PATH=$&#123;HADOOP_HOME&#125;/bin:$&#123;HADOOP_HOME&#125;/sbin:$PATH</div><div class="line"></div><div class="line">#日志文件存放目录</div><div class="line">log_src_dir=/home/hadoop/logs/log/</div><div class="line"></div><div class="line">#待上传文件存放目录</div><div class="line">log_toupload_dir=/home/hadoop/logs/toupload/</div><div class="line"></div><div class="line">#hdfs目录名称关联当前系统时间</div><div class="line">datedir=`date +%Y%m%d`</div><div class="line"></div><div class="line">#日志文件上传到hdfs的根目录,（每天生产文件夹需要修改）</div><div class="line">hdfs_root_dir=/data/clickLog/`date +%Y%m%d`</div><div class="line"></div><div class="line">#打印环境变量信息</div><div class="line">echo &quot;envs:hadoop_home:$HADOOP_HOME&quot;</div><div class="line"></div><div class="line">#读取日志文件的目录，判断是否需要上传文件</div><div class="line">echo &quot;log_src_dir:&quot;$log_src_dir</div><div class="line">ls $log_src_dir | while read fileName</div><div class="line">do</div><div class="line">	if [[ &quot;$fileName&quot; == access.log.* ]];then</div><div class="line">		date=`date +%Y_%m_%d_%H_%M_%S`</div><div class="line">	#将文件移动到待上传目录并重命名</div><div class="line">	echo &quot;moving $log_src_dir$fileName to $log_toupload_dir&quot;xxxxx_click_log_$fileName&quot;$date&quot;</div><div class="line">	mv $log_src_dir$fileName $log_toupload_dir&quot;xxxxx_click_log_$fileName&quot;$date</div><div class="line">	#将待上传文件path写入一个列表文件willDong.$date</div><div class="line">	echo $log_toupload_dir&quot;xxxxx_click_log_$fileName&quot;$date &gt;&gt; $log_toupload_dir&quot;willDoing.&quot;$date</div><div class="line">	fi</div><div class="line">done</div><div class="line">#找到列表文件的willDoing</div><div class="line">ls $log_toupload_dir | grep will | grep -v &quot;_COPY_&quot; | grep -v &quot;_DONE_&quot; | while read line</div><div class="line">do</div><div class="line">	#打印信息</div><div class="line">	echo &quot;toupload is in file :&quot;$line</div><div class="line">	#将待上传文件列表willDoing改名为willDoing_COPY_</div><div class="line">	mv $log_toupload_dir$line $log_toupload_dir$line&quot;_COPY_&quot;</div><div class="line">	#读列表文件willDling_COPY_的内容 一个一个文件上传</div><div class="line">	cat $log_toupload_dir$line&quot;_COPY_&quot; | while read line</div><div class="line">	do</div><div class="line">		#打印信息</div><div class="line">		echo &quot;puting ...... $line to hdfs path... $hdfs_root_dir&quot;</div><div class="line">		hadoop fs -put $line $hdfs_root_dir</div><div class="line">	done</div><div class="line">	mv $log_toupload_dir$line&quot;_COPY_&quot; $log_toupload_dir$line&quot;_DONE_&quot;</div><div class="line">done</div></pre></td></tr></table></figure>
+<p>最后crontab 做定时任务</p>
+]]></content>
+    
+    <summary type="html">
+    
+      原创
+    
+    </summary>
+    
+      <category term="技术" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="大数据" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+    
+      <category term="shell脚本" scheme="http://zhoujian.lol/tags/shell%E8%84%9A%E6%9C%AC/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HDFS原理</title>
+    <link href="http://zhoujian.lol/2016/12/24/HDFS%E5%8E%9F%E7%90%86/"/>
+    <id>http://zhoujian.lol/2016/12/24/HDFS原理/</id>
+    <published>2016-12-24T12:11:43.000Z</published>
+    <updated>2016-12-24T12:12:34.821Z</updated>
+    
+    <content type="html"><![CDATA[<p>(注：HDFS适合用来做数据分析，并不适合用来做网盘应用，因为，不便修改，延迟大，网络开销大，成本太高)</p>
+<h2 id="HDFS的工作机制"><a href="#HDFS的工作机制" class="headerlink" title="HDFS的工作机制"></a>HDFS的工作机制</h2><h3 id="hdfs写数据"><a href="#hdfs写数据" class="headerlink" title="hdfs写数据"></a>hdfs写数据</h3><h3 id="hdfs读数据"><a href="#hdfs读数据" class="headerlink" title="hdfs读数据"></a>hdfs读数据</h3><h2 id="NAMENODE工作机制"><a href="#NAMENODE工作机制" class="headerlink" title="NAMENODE工作机制"></a>NAMENODE工作机制</h2><h3 id="元数据管理"><a href="#元数据管理" class="headerlink" title="元数据管理"></a>元数据管理</h3><h3 id="元数据存储"><a href="#元数据存储" class="headerlink" title="元数据存储"></a>元数据存储</h3><h2 id="DATANODE的工作机制"><a href="#DATANODE的工作机制" class="headerlink" title="DATANODE的工作机制"></a>DATANODE的工作机制</h2>]]></content>
+    
+    <summary type="html">
+    
+      原创
+    
+    </summary>
+    
+      <category term="HDFS" scheme="http://zhoujian.lol/categories/HDFS/"/>
+    
+    
+      <category term="HDFS" scheme="http://zhoujian.lol/tags/HDFS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>FTP接口数据采集</title>
+    <link href="http://zhoujian.lol/2016/12/24/FTP%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/"/>
+    <id>http://zhoujian.lol/2016/12/24/FTP接口数据采集/</id>
+    <published>2016-12-24T12:08:48.000Z</published>
+    <updated>2016-12-24T12:13:34.921Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>从外部购买数据，数据提供方会实时将数据推送到6台FTP服务器上，我方部署6台接口采集机来对接采集数据，并上传到HDFS中</p>
+<p>提供商在FTP上生成数据的规则是以小时为单位建立文件夹(2016-03-11-10)，每分钟生成一个文件（00.dat,01.data,02.dat,……..）</p>
+<p>提供方不提供数据备份，推送到FTP服务器的数据如果丢失，不再重新提供，且FTP服务器磁盘空间有限，最多存储最近10小时内的数据</p>
+<p>由于每一个文件比较小，只有150M左右，因此，我方在上传到HDFS过程中，需要将15分钟时段的数据合并成一个文件上传到HDFS</p>
+<p>为了区分数据丢失的责任，我方在下载数据时最好进行校验</p>
+<p>未完待续 详情资料正在整理中……</p>
+]]></content>
+    
+    <summary type="html">
+    
+      原创
+    
+    </summary>
+    
+      <category term="技术" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="大数据" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
+    
+    
+      <category term="数据采集" scheme="http://zhoujian.lol/tags/%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86/"/>
+    
+  </entry>
   
   <entry>
     <title>网站或APP点击流日志数据挖掘系统</title>

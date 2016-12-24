@@ -3,6 +3,27 @@
   
     
     <entry>
+      <title><![CDATA[shell脚本定时采集日志数据]]></title>
+      <url>%2F2016%2F12%2F24%2Fshell%E8%84%9A%E6%9C%AC%E5%AE%9A%E6%97%B6%E9%87%87%E9%9B%86%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%2F</url>
+      <content type="text"><![CDATA[12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455#!/bin/bash#set java envexport JAVA_HOME=/usr/lib/java/jdk1.7.0_79/export JRE_HOME=$&#123;JAVA_HOME&#125;/jreexport CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/libexport PATH=$&#123;JAVA_HOME&#125;/bin:$PATH#set hadoop envexport HADOOP_HOME=/app/hadoop/hadoop-2.2.0export PATH=$&#123;HADOOP_HOME&#125;/bin:$&#123;HADOOP_HOME&#125;/sbin:$PATH#日志文件存放目录log_src_dir=/home/hadoop/logs/log/#待上传文件存放目录log_toupload_dir=/home/hadoop/logs/toupload/#hdfs目录名称关联当前系统时间datedir=`date +%Y%m%d`#日志文件上传到hdfs的根目录,（每天生产文件夹需要修改）hdfs_root_dir=/data/clickLog/`date +%Y%m%d`#打印环境变量信息echo &quot;envs:hadoop_home:$HADOOP_HOME&quot;#读取日志文件的目录，判断是否需要上传文件echo &quot;log_src_dir:&quot;$log_src_dirls $log_src_dir | while read fileNamedo if [[ &quot;$fileName&quot; == access.log.* ]];then date=`date +%Y_%m_%d_%H_%M_%S` #将文件移动到待上传目录并重命名 echo &quot;moving $log_src_dir$fileName to $log_toupload_dir&quot;xxxxx_click_log_$fileName&quot;$date&quot; mv $log_src_dir$fileName $log_toupload_dir&quot;xxxxx_click_log_$fileName&quot;$date #将待上传文件path写入一个列表文件willDong.$date echo $log_toupload_dir&quot;xxxxx_click_log_$fileName&quot;$date &gt;&gt; $log_toupload_dir&quot;willDoing.&quot;$date fidone#找到列表文件的willDoingls $log_toupload_dir | grep will | grep -v &quot;_COPY_&quot; | grep -v &quot;_DONE_&quot; | while read linedo #打印信息 echo &quot;toupload is in file :&quot;$line #将待上传文件列表willDoing改名为willDoing_COPY_ mv $log_toupload_dir$line $log_toupload_dir$line&quot;_COPY_&quot; #读列表文件willDling_COPY_的内容 一个一个文件上传 cat $log_toupload_dir$line&quot;_COPY_&quot; | while read line do #打印信息 echo &quot;puting ...... $line to hdfs path... $hdfs_root_dir&quot; hadoop fs -put $line $hdfs_root_dir done mv $log_toupload_dir$line&quot;_COPY_&quot; $log_toupload_dir$line&quot;_DONE_&quot;done 最后crontab 做定时任务]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[HDFS原理]]></title>
+      <url>%2F2016%2F12%2F24%2FHDFS%E5%8E%9F%E7%90%86%2F</url>
+      <content type="text"><![CDATA[(注：HDFS适合用来做数据分析，并不适合用来做网盘应用，因为，不便修改，延迟大，网络开销大，成本太高) HDFS的工作机制hdfs写数据hdfs读数据NAMENODE工作机制元数据管理元数据存储DATANODE的工作机制]]></content>
+    </entry>
+
+    
+    <entry>
+      <title><![CDATA[FTP接口数据采集]]></title>
+      <url>%2F2016%2F12%2F24%2FFTP%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%2F</url>
+      <content type="text"><![CDATA[需求从外部购买数据，数据提供方会实时将数据推送到6台FTP服务器上，我方部署6台接口采集机来对接采集数据，并上传到HDFS中 提供商在FTP上生成数据的规则是以小时为单位建立文件夹(2016-03-11-10)，每分钟生成一个文件（00.dat,01.data,02.dat,……..） 提供方不提供数据备份，推送到FTP服务器的数据如果丢失，不再重新提供，且FTP服务器磁盘空间有限，最多存储最近10小时内的数据 由于每一个文件比较小，只有150M左右，因此，我方在上传到HDFS过程中，需要将15分钟时段的数据合并成一个文件上传到HDFS 为了区分数据丢失的责任，我方在下载数据时最好进行校验 未完待续 详情资料正在整理中……]]></content>
+    </entry>
+
+    
+    <entry>
       <title><![CDATA[网站或APP点击流日志数据挖掘系统]]></title>
       <url>%2F2016%2F12%2F23%2F%E7%BD%91%E7%AB%99%E6%88%96APP%E7%82%B9%E5%87%BB%E6%B5%81%E6%97%A5%E5%BF%97%E6%95%B0%E6%8D%AE%E6%8C%96%E6%8E%98%E7%B3%BB%E7%BB%9F%2F</url>
       <content type="text"><![CDATA[需求描述“Web点击流日志”包含着网站运营很重要的信息，通过日志分析，我们可以知道网站的访问量，哪个网页访问人数最多，哪个网页最有价值，广告转化率、访客的来源信息，访客的终端信息等。 数据来源数据主要是用户的点击行为记录，获取方式通常是在页面内预埋js代码，为页面想要监听的标签绑定事件，只要用户点击或移动到标签就会触发ajax请求到后台servlet，用log4j记录下日志信息，在后台服务器nginx、tomcat不断产生增长日志文件。 数据量分析对于一般的中型网站(10W的PV以上)，每天会产生1G以上的web日志文件。对于大型或超大型网站,可能每小时就会产生10G的数据量。具体来说，比如某电子商务网站，在线团购业务。每日PV数100w，独立IP数5w。用户通常在工作日上午10:00-12:00和下午15:00-18:00访问量最大。日间主要是通过PC端浏览器访问，休息日及夜间通过移动设备访问较多。网站搜索浏量占整个网站的80%，PC用户不足1%的用户会消费，移动用户有5%会消费。 对于日志的这种规模的数据，用HADOOP进行日志分析，是最适合不过的了。 流程图解析 数据采集：定制开发采集程序，或使用开源框架FLUME数据预处理：定制开发mapreduce程序运行于hadoop集群数据仓库技术：基于hadoop之上的Hive数据导出：基于hadoop的sqoop数据导入导出工具数据可视化：定制开发web程序或使用kettle(etl工具)等产品整个过程的流程调度：hadoop生态圈中的oozie工具或其他类似开源产品 项目技术架构图 推荐系统架构]]></content>
