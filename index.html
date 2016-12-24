@@ -559,7 +559,24 @@
         
           
             <p>(注：HDFS适合用来做数据分析，并不适合用来做网盘应用，因为，不便修改，延迟大，网络开销大，成本太高)</p>
-<h2 id="HDFS的工作机制"><a href="#HDFS的工作机制" class="headerlink" title="HDFS的工作机制"></a>HDFS的工作机制</h2><h3 id="hdfs写数据"><a href="#hdfs写数据" class="headerlink" title="hdfs写数据"></a>hdfs写数据</h3><h3 id="hdfs读数据"><a href="#hdfs读数据" class="headerlink" title="hdfs读数据"></a>hdfs读数据</h3><h2 id="NAMENODE工作机制"><a href="#NAMENODE工作机制" class="headerlink" title="NAMENODE工作机制"></a>NAMENODE工作机制</h2><h3 id="元数据管理"><a href="#元数据管理" class="headerlink" title="元数据管理"></a>元数据管理</h3><h3 id="元数据存储"><a href="#元数据存储" class="headerlink" title="元数据存储"></a>元数据存储</h3><h2 id="DATANODE的工作机制"><a href="#DATANODE的工作机制" class="headerlink" title="DATANODE的工作机制"></a>DATANODE的工作机制</h2>
+<h2 id="HDFS的工作机制"><a href="#HDFS的工作机制" class="headerlink" title="HDFS的工作机制"></a>HDFS的工作机制</h2><h3 id="hdfs写数据"><a href="#hdfs写数据" class="headerlink" title="hdfs写数据"></a>hdfs写数据</h3><ol>
+<li>和namenode通信请求上传文件，namenode验证目标是否存在，文件是否存在，是否可以上传。</li>
+<li>如果可以上传，客户端请求的第一个block快该上传到哪些datanode，需要从请求返回的namenode列表中获取。</li>
+<li>假如返回A、B、C、3个namenode，客户端会在一台上传数据，A收到请求会继续调用B，然后B调用C，将真个pipeline建立完成，逐级返回客户端(本质上是一个RPC调用，建立pipeline,以packet为单位)</li>
+<li>当一个block传输完成之后，client再次请求namenode上传第二个block的服务器。<h3 id="hdfs读数据"><a href="#hdfs读数据" class="headerlink" title="hdfs读数据"></a>hdfs读数据</h3></li>
+<li>和namenode进行通信查询元数据，找到block对应的datanode信息。</li>
+<li>挑选一台datanode服务器建立连接(就近原则，然后随机)，建立socket流</li>
+<li>datanode开始发送数据(从磁盘读出数据放入流中，以packet(64K)为单位校验)</li>
+<li>客户端以packet为单位接收，先存入本地，在写入目标文件。<h2 id="NAMENODE工作机制"><a href="#NAMENODE工作机制" class="headerlink" title="NAMENODE工作机制"></a>NAMENODE工作机制</h2><h3 id="元数据管理"><a href="#元数据管理" class="headerlink" title="元数据管理"></a>元数据管理</h3></li>
+<li>namenode对数据的管理采用了3种形式：</li>
+<li>内存元数据管理(meta.data)</li>
+<li>磁盘镜像fsimage文件管理</li>
+<li>数据操作日志文件edits管理<h3 id="元数据存储"><a href="#元数据存储" class="headerlink" title="元数据存储"></a>元数据存储</h3>当客户端对hdfs系统上的文件进行新增或修改时，操作记录首先被记录edits文件中，当客户端操作成功后，相应的元数据会更新到内存meta.data。<br>当checkpoint被触发后，secondNameNode后到namenode工作目录中抓取fsimage文件和edits文件，并进行merge，重新替换之前的fsimage文件。</li>
+</ol>
+<p>namenode和secondary namenode的工作目录存储结构完全相同，所以，当namenode故障退出需要重新恢复时，可以从secondary namenode的工作目录中将fsimage拷贝到namenode的工作目录，以恢复namenode的元数据。</p>
+<h2 id="DATANODE的工作机制"><a href="#DATANODE的工作机制" class="headerlink" title="DATANODE的工作机制"></a>DATANODE的工作机制</h2><p>存储管理用户的文件块数据<br>定期向namenode汇报自身所持有的block信息（通过心跳信息上报）<br>（这点很重要，因为，当集群中发生某些block副本失效时，集群如何恢复block初始副本数量的问题）</p>
+<p>Datanode掉线判断时限参数，HDFS默认的超时时长为10分钟+30秒。如果定义超时时间为timeout，则超时时长的计算公式为：<br>    timeout  = 2 <em> heartbeat.recheck.interval(单位毫秒) + 10 </em> dfs.heartbeat.interval(单位秒)。</p>
+
           
         
       
