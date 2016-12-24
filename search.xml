@@ -10,13 +10,6 @@
 
     
     <entry>
-      <title><![CDATA[HDFS原理]]></title>
-      <url>%2F2016%2F12%2F24%2FHDFS%E5%8E%9F%E7%90%86%2F</url>
-      <content type="text"><![CDATA[(注：HDFS适合用来做数据分析，并不适合用来做网盘应用，因为，不便修改，延迟大，网络开销大，成本太高) HDFS的工作机制hdfs写数据 和namenode通信请求上传文件，namenode验证目标是否存在，文件是否存在，是否可以上传。 如果可以上传，客户端请求的第一个block快该上传到哪些datanode，需要从请求返回的namenode列表中获取。 假如返回A、B、C、3个namenode，客户端会在一台上传数据，A收到请求会继续调用B，然后B调用C，将真个pipeline建立完成，逐级返回客户端(本质上是一个RPC调用，建立pipeline,以packet为单位) 当一个block传输完成之后，client再次请求namenode上传第二个block的服务器。hdfs读数据 和namenode进行通信查询元数据，找到block对应的datanode信息。 挑选一台datanode服务器建立连接(就近原则，然后随机)，建立socket流 datanode开始发送数据(从磁盘读出数据放入流中，以packet(64K)为单位校验) 客户端以packet为单位接收，先存入本地，在写入目标文件。NAMENODE工作机制元数据管理 namenode对数据的管理采用了3种形式： 内存元数据管理(meta.data) 磁盘镜像fsimage文件管理 数据操作日志文件edits管理元数据存储当客户端对hdfs系统上的文件进行新增或修改时，操作记录首先被记录edits文件中，当客户端操作成功后，相应的元数据会更新到内存meta.data。当checkpoint被触发后，secondNameNode后到namenode工作目录中抓取fsimage文件和edits文件，并进行merge，重新替换之前的fsimage文件。 namenode和secondary namenode的工作目录存储结构完全相同，所以，当namenode故障退出需要重新恢复时，可以从secondary namenode的工作目录中将fsimage拷贝到namenode的工作目录，以恢复namenode的元数据。 DATANODE的工作机制存储管理用户的文件块数据定期向namenode汇报自身所持有的block信息（通过心跳信息上报）（这点很重要，因为，当集群中发生某些block副本失效时，集群如何恢复block初始副本数量的问题） Datanode掉线判断时限参数，HDFS默认的超时时长为10分钟+30秒。如果定义超时时间为timeout，则超时时长的计算公式为： timeout = 2 heartbeat.recheck.interval(单位毫秒) + 10 dfs.heartbeat.interval(单位秒)。]]></content>
-    </entry>
-
-    
-    <entry>
       <title><![CDATA[FTP接口数据采集]]></title>
       <url>%2F2016%2F12%2F24%2FFTP%E6%8E%A5%E5%8F%A3%E6%95%B0%E6%8D%AE%E9%87%87%E9%9B%86%2F</url>
       <content type="text"><![CDATA[需求从外部购买数据，数据提供方会实时将数据推送到6台FTP服务器上，我方部署6台接口采集机来对接采集数据，并上传到HDFS中 提供商在FTP上生成数据的规则是以小时为单位建立文件夹(2016-03-11-10)，每分钟生成一个文件（00.dat,01.data,02.dat,……..） 提供方不提供数据备份，推送到FTP服务器的数据如果丢失，不再重新提供，且FTP服务器磁盘空间有限，最多存储最近10小时内的数据 由于每一个文件比较小，只有150M左右，因此，我方在上传到HDFS过程中，需要将15分钟时段的数据合并成一个文件上传到HDFS 为了区分数据丢失的责任，我方在下载数据时最好进行校验 未完待续 详情资料正在整理中……]]></content>
