@@ -46,7 +46,7 @@
     <link href="http://zhoujian.lol/2016/12/24/HDFS%E5%8E%9F%E7%90%86/"/>
     <id>http://zhoujian.lol/2016/12/24/HDFS原理/</id>
     <published>2016-12-24T12:11:43.000Z</published>
-    <updated>2016-12-24T12:53:13.278Z</updated>
+    <updated>2016-12-24T13:00:02.316Z</updated>
     
     <content type="html"><![CDATA[<p>(注：HDFS适合用来做数据分析，并不适合用来做网盘应用，因为，不便修改，延迟大，网络开销大，成本太高)</p>
 <h2 id="HDFS的工作机制"><a href="#HDFS的工作机制" class="headerlink" title="HDFS的工作机制"></a>HDFS的工作机制</h2><h3 id="hdfs写数据"><a href="#hdfs写数据" class="headerlink" title="hdfs写数据"></a>hdfs写数据</h3><ol>
@@ -74,7 +74,9 @@
     
     </summary>
     
-      <category term="HDFS" scheme="http://zhoujian.lol/categories/HDFS/"/>
+      <category term="技术" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/"/>
+    
+      <category term="大数据" scheme="http://zhoujian.lol/categories/%E6%8A%80%E6%9C%AF/%E5%A4%A7%E6%95%B0%E6%8D%AE/"/>
     
     
       <category term="HDFS" scheme="http://zhoujian.lol/tags/HDFS/"/>
