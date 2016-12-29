@@ -311,7 +311,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/24/shell脚本定时采集日志数据/">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/29/web日志预处理/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="zhoujian">
@@ -336,8 +336,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/12/24/shell脚本定时采集日志数据/" itemprop="url">
-                  shell脚本定时采集日志数据
+                <a class="post-title-link" href="/2016/12/29/web日志预处理/" itemprop="url">
+                  web日志预处理
                 </a>
               
             
@@ -351,8 +351,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-24T22:31:53+08:00">
-                2016-12-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-29T21:51:23+08:00">
+                2016-12-29
               </time>
             
 
@@ -420,8 +420,10 @@
           <!--/noindex-->
         
           
-            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div></pre></td><td class="code"><pre><div class="line">#!/bin/bash</div><div class="line">#set java env</div><div class="line">export JAVA_HOME=/usr/lib/java/jdk1.7.0_79/</div><div class="line">export JRE_HOME=$&#123;JAVA_HOME&#125;/jre</div><div class="line">export CLASSPATH=.:$&#123;JAVA_HOME&#125;/lib:$&#123;JRE_HOME&#125;/lib</div><div class="line">export PATH=$&#123;JAVA_HOME&#125;/bin:$PATH</div><div class="line"></div><div class="line">#set hadoop env</div><div class="line">export HADOOP_HOME=/app/hadoop/hadoop-2.2.0</div><div class="line">export PATH=$&#123;HADOOP_HOME&#125;/bin:$&#123;HADOOP_HOME&#125;/sbin:$PATH</div><div class="line"></div><div class="line">#日志文件存放目录</div><div class="line">log_src_dir=/home/hadoop/logs/log/</div><div class="line"></div><div class="line">#待上传文件存放目录</div><div class="line">log_toupload_dir=/home/hadoop/logs/toupload/</div><div class="line"></div><div class="line">#hdfs目录名称关联当前系统时间</div><div class="line">datedir=`date +%Y%m%d`</div><div class="line"></div><div class="line">#日志文件上传到hdfs的根目录,（每天生产文件夹需要修改）</div><div class="line">hdfs_root_dir=/data/clickLog/`date +%Y%m%d`</div><div class="line"></div><div class="line">#打印环境变量信息</div><div class="line">echo &quot;envs:hadoop_home:$HADOOP_HOME&quot;</div><div class="line"></div><div class="line">#读取日志文件的目录，判断是否需要上传文件</div><div class="line">echo &quot;log_src_dir:&quot;$log_src_dir</div><div class="line">ls $log_src_dir | while read fileName</div><div class="line">do</div><div class="line">	if [[ &quot;$fileName&quot; == access.log.* ]];then</div><div class="line">		date=`date +%Y_%m_%d_%H_%M_%S`</div><div class="line">	#将文件移动到待上传目录并重命名</div><div class="line">	echo &quot;moving $log_src_dir$fileName to $log_toupload_dir&quot;xxxxx_click_log_$fileName&quot;$date&quot;</div><div class="line">	mv $log_src_dir$fileName $log_toupload_dir&quot;xxxxx_click_log_$fileName&quot;$date</div><div class="line">	#将待上传文件path写入一个列表文件willDong.$date</div><div class="line">	echo $log_toupload_dir&quot;xxxxx_click_log_$fileName&quot;$date &gt;&gt; $log_toupload_dir&quot;willDoing.&quot;$date</div><div class="line">	fi</div><div class="line">done</div><div class="line">#找到列表文件的willDoing</div><div class="line">ls $log_toupload_dir | grep will | grep -v &quot;_COPY_&quot; | grep -v &quot;_DONE_&quot; | while read line</div><div class="line">do</div><div class="line">	#打印信息</div><div class="line">	echo &quot;toupload is in file :&quot;$line</div><div class="line">	#将待上传文件列表willDoing改名为willDoing_COPY_</div><div class="line">	mv $log_toupload_dir$line $log_toupload_dir$line&quot;_COPY_&quot;</div><div class="line">	#读列表文件willDling_COPY_的内容 一个一个文件上传</div><div class="line">	cat $log_toupload_dir$line&quot;_COPY_&quot; | while read line</div><div class="line">	do</div><div class="line">		#打印信息</div><div class="line">		echo &quot;puting ...... $line to hdfs path... $hdfs_root_dir&quot;</div><div class="line">		hadoop fs -put $line $hdfs_root_dir</div><div class="line">	done</div><div class="line">	mv $log_toupload_dir$line&quot;_COPY_&quot; $log_toupload_dir$line&quot;_DONE_&quot;</div><div class="line">done</div></pre></td></tr></table></figure>
-<p>最后crontab 做定时任务</p>
+            <h2 id="需求："><a href="#需求：" class="headerlink" title="需求："></a>需求：</h2><p>对web访问日志中的各字段识别切分<br>去除日志中不合法的记录<br>根据KPI统计需求，生成各类访问请求过滤数据</p>
+<h2 id="实现："><a href="#实现：" class="headerlink" title="实现："></a>实现：</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 对web访问日志中的各字段识别切分</div><div class="line">	去除日志中不合法的记录</div><div class="line">	根据KPI统计需求，生成各类访问请求过滤数据</div><div class="line"></div><div class="line">	定义一个bean，用来记录日志数据中的各数据字段</div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月29日 上午9:54:31</div><div class="line"> */</div><div class="line">public class WebLogBean &#123;</div><div class="line">    private String remote_addr;// 记录客户端的ip地址</div><div class="line">    private String remote_user;// 记录客户端用户名称,忽略属性&quot;-&quot;</div><div class="line">    private String time_local;// 记录访问时间与时区</div><div class="line">    private String request;// 记录请求的url与http协议</div><div class="line">    private String status;// 记录请求状态；成功是200</div><div class="line">    private String body_bytes_sent;// 记录发送给客户端文件主体内容大小</div><div class="line">    private String http_referer;// 用来记录从那个页面链接访问过来的</div><div class="line">    private String http_user_agent;// 记录客户浏览器的相关信息</div><div class="line"></div><div class="line">    private boolean valid = true;// 判断数据是否合法</div><div class="line"></div><div class="line">	public String getRemote_addr() &#123;</div><div class="line">		return remote_addr;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setRemote_addr(String remote_addr) &#123;</div><div class="line">		this.remote_addr = remote_addr;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getRemote_user() &#123;</div><div class="line">		return remote_user;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setRemote_user(String remote_user) &#123;</div><div class="line">		this.remote_user = remote_user;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getTime_local() &#123;</div><div class="line">		return time_local;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setTime_local(String time_local) &#123;</div><div class="line">		this.time_local = time_local;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getRequest() &#123;</div><div class="line">		return request;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setRequest(String request) &#123;</div><div class="line">		this.request = request;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getStatus() &#123;</div><div class="line">		return status;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setStatus(String status) &#123;</div><div class="line">		this.status = status;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getBody_bytes_sent() &#123;</div><div class="line">		return body_bytes_sent;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setBody_bytes_sent(String body_bytes_sent) &#123;</div><div class="line">		this.body_bytes_sent = body_bytes_sent;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getHttp_referer() &#123;</div><div class="line">		return http_referer;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setHttp_referer(String http_referer) &#123;</div><div class="line">		this.http_referer = http_referer;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getHttp_user_agent() &#123;</div><div class="line">		return http_user_agent;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setHttp_user_agent(String http_user_agent) &#123;</div><div class="line">		this.http_user_agent = http_user_agent;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public boolean isValid() &#123;</div><div class="line">		return valid;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setValid(boolean valid) &#123;</div><div class="line">		this.valid = valid;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public String toString() &#123;</div><div class="line">		StringBuilder sBuilder = new StringBuilder();</div><div class="line">		sBuilder.append(this.valid);</div><div class="line">		sBuilder.append(&quot;\001&quot;).append(this.remote_addr);</div><div class="line">		sBuilder.append(&quot;\001&quot;).append(this.remote_user);</div><div class="line">		sBuilder.append(&quot;\001&quot;).append(this.time_local);</div><div class="line">		sBuilder.append(&quot;\001&quot;).append(this.request);</div><div class="line">		sBuilder.append(&quot;\001&quot;).append(this.status);</div><div class="line">		sBuilder.append(&quot;\001&quot;).append(this.body_bytes_sent);</div><div class="line">		sBuilder.append(&quot;\001&quot;).append(this.http_referer);</div><div class="line">		sBuilder.append(&quot;\001&quot;).append(this.http_user_agent);</div><div class="line">		return sBuilder.toString();</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 读入日志文件 进行解析处理</div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月29日 上午10:23:26</div><div class="line"> */</div><div class="line">public class WebLogParseJob &#123;</div><div class="line"></div><div class="line">	static class WebLogParseMapper extends Mapper&lt;LongWritable, Text, Text, NullWritable&gt;&#123;</div><div class="line">		</div><div class="line">		Text k  = new Text();</div><div class="line">		NullWritable v = NullWritable.get();</div><div class="line">		@Override</div><div class="line">		protected void map(LongWritable key, Text value,</div><div class="line">				Mapper&lt;LongWritable, Text, Text, NullWritable&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			String string = value.toString();</div><div class="line">			WebLogBean webLogBean = WebLogParser.parser(string);</div><div class="line">			//记住***</div><div class="line">			if (!webLogBean.isValid()) </div><div class="line">				return;</div><div class="line">			k.set(webLogBean.toString());</div><div class="line">			context.write(k, v);</div><div class="line">			</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123;</div><div class="line">		</div><div class="line">		Configuration conf = new Configuration();</div><div class="line">		Job job = Job.getInstance(conf);</div><div class="line">		FileSystem fs = FileSystem.get(conf);</div><div class="line">		//指定job需要的jar包路径</div><div class="line">		job.setJarByClass(WebLogParseJob.class);</div><div class="line">		</div><div class="line">		//job所需要的map业务类  这里没用到reduce 不用设置 或设置job.setNumReduceTasks(0)</div><div class="line">		job.setMapperClass(WebLogParseMapper.class);</div><div class="line">		//job.setNumReduceTasks(0);</div><div class="line">		</div><div class="line">		//设置最总的输出数据kv类型</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(NullWritable.class);</div><div class="line">		</div><div class="line">		//设置job的数据源目录和输出目录</div><div class="line">		FileInputFormat.setInputPaths(job, new Path(args[0]));</div><div class="line">		</div><div class="line">		Path outPath = new Path(args[1]);</div><div class="line">		if (fs.exists(outPath)) &#123;</div><div class="line">		</div><div class="line">			fs.delete(outPath, true);</div><div class="line">		&#125;</div><div class="line">		FileOutputFormat.setOutputPath(job, outPath);</div><div class="line">		</div><div class="line">		//提交job</div><div class="line">		job.waitForCompletion(true);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 解析过滤web访问日志原始记录逻辑</div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月29日 上午10:05:06</div><div class="line"> */</div><div class="line">public class WebLogParser &#123;</div><div class="line"></div><div class="line">	static SimpleDateFormat sdt1 = new SimpleDateFormat(&quot;dd/MMM/yyyy:HH:mm:ss&quot;,Locale.US);//因为时间是18/Sep/2013:06:52:39 月份由3为 所以3个M</div><div class="line">	static SimpleDateFormat sdt2 = new SimpleDateFormat(&quot;yyyy-MM-dd HH:mm:ss&quot;);</div><div class="line">	public static WebLogBean parser(String line)&#123;</div><div class="line">		WebLogBean webLogBean = new WebLogBean();</div><div class="line">		String[] fields = line.split(&quot; &quot;);</div><div class="line">		if(fields.length &gt; 11)&#123;</div><div class="line">			webLogBean.setRemote_addr(fields[0]);</div><div class="line">			webLogBean.setRemote_user(fields[1]);</div><div class="line">			webLogBean.setTime_local(parseTime(fields[3].substring(1)));</div><div class="line">			webLogBean.setRequest(fields[6]);</div><div class="line">			webLogBean.setStatus(fields[8]);</div><div class="line">			webLogBean.setBody_bytes_sent(fields[9]);</div><div class="line">			webLogBean.setHttp_referer(fields[10]);</div><div class="line">			if (fields.length &gt; 12) &#123;</div><div class="line">				webLogBean.setHttp_user_agent(fields[11] + &quot; &quot; + fields[12]);</div><div class="line">			&#125; else &#123;</div><div class="line">				webLogBean.setHttp_user_agent(fields[11]);</div><div class="line">			&#125;</div><div class="line">			if (Integer.parseInt(webLogBean.getStatus()) &gt;= 400) &#123;// 大于400，HTTP错误</div><div class="line">				webLogBean.setValid(false);</div><div class="line">			&#125;</div><div class="line">		&#125;else &#123;</div><div class="line">			webLogBean.setValid(false);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		return webLogBean;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	/**</div><div class="line">	 * 时间格式化</div><div class="line">	 * @return  String</div><div class="line">	 */</div><div class="line">	public static String parseTime(String dt)&#123;</div><div class="line">		String timeString=&quot;&quot;;</div><div class="line">		try &#123;</div><div class="line">			Date parse = sdt1.parse(dt);</div><div class="line">		    timeString = sdt2.format(parse);</div><div class="line">		&#125; catch (ParseException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		return timeString;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) &#123;</div><div class="line">		String parseTime = parseTime(&quot;18/Sep/2013:06:49:18&quot;);</div><div class="line">		System.out.println(parseTime);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -460,7 +462,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/24/HDFS原理/">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/29/社交粉丝数据分析/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="zhoujian">
@@ -485,8 +487,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/12/24/HDFS原理/" itemprop="url">
-                  HDFS原理
+                <a class="post-title-link" href="/2016/12/29/社交粉丝数据分析/" itemprop="url">
+                  社交粉丝数据分析
                 </a>
               
             
@@ -500,8 +502,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-24T21:09:07+08:00">
-                2016-12-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-29T21:51:11+08:00">
+                2016-12-29
               </time>
             
 
@@ -569,14 +571,8 @@
           <!--/noindex-->
         
           
-            <p>(注：HDFS适合用来做数据分析，并不适合用来做网盘应用，因为，不便修改，延迟大，网络开销大，成本太高)</p>
-<h2 id="HDFS的工作机制"><a href="#HDFS的工作机制" class="headerlink" title="HDFS的工作机制"></a>HDFS的工作机制</h2><h3 id="hdfs写数据"><a href="#hdfs写数据" class="headerlink" title="hdfs写数据"></a>hdfs写数据</h3><p>1.和namenode通信请求上传文件，namenode验证目标是否存在，文件是否存在，是否可以上传。<br>2.如果可以上传，客户端请求的第一个block快该上传到哪些datanode，需要从请求返回的namenode列表中获取。<br>3.假如返回A、B、C、3个namenode，客户端会在一台上传数据，A收到请求会继续调用B，然后B调用C，将真个pipeline建立完成，逐级返回客户端(本质上是一个RPC调用，建立pipeline,以packet为单位)<br>4.当一个block传输完成之后，client再次请求namenode上传第二个block的服务器。</p>
-<h3 id="hdfs读数据"><a href="#hdfs读数据" class="headerlink" title="hdfs读数据"></a>hdfs读数据</h3><p>1.和namenode进行通信查询元数据，找到block对应的datanode信息。<br>2.挑选一台datanode服务器建立连接(就近原则，然后随机)，建立socket流<br>3.datanode开始发送数据(从磁盘读出数据放入流中，以packet(64K)为单位校验)<br>4.客户端以packet为单位接收，先存入本地，在写入目标文件。</p>
-<h2 id="NAMENODE工作机制"><a href="#NAMENODE工作机制" class="headerlink" title="NAMENODE工作机制"></a>NAMENODE工作机制</h2><h3 id="元数据管理"><a href="#元数据管理" class="headerlink" title="元数据管理"></a>元数据管理</h3><p>1.namenode对数据的管理采用了3种形式：<br>2.内存元数据管理(meta.data)<br>3.磁盘镜像fsimage文件管理<br>4.数据操作日志文件edits管理</p>
-<h3 id="元数据存储"><a href="#元数据存储" class="headerlink" title="元数据存储"></a>元数据存储</h3><p>当客户端对hdfs系统上的文件进行新增或修改时，操作记录首先被记录edits文件中，当客户端操作成功后，相应的元数据会更新到内存meta.data。<br>当checkpoint被触发后，secondNameNode后到namenode工作目录中抓取fsimage文件和edits文件，并进行merge，重新替换之前的fsimage文件。</p>
-<p>namenode和secondary namenode的工作目录存储结构完全相同，所以，当namenode故障退出需要重新恢复时，可以从secondary namenode的工作目录中将fsimage拷贝到namenode的工作目录，以恢复namenode的元数据。</p>
-<h2 id="DATANODE的工作机制"><a href="#DATANODE的工作机制" class="headerlink" title="DATANODE的工作机制"></a>DATANODE的工作机制</h2><p>存储管理用户的文件块数据<br>定期向namenode汇报自身所持有的block信息（通过心跳信息上报）<br>（这点很重要，因为，当集群中发生某些block副本失效时，集群如何恢复block初始副本数量的问题）</p>
-<p>Datanode掉线判断时限参数，HDFS默认的超时时长为10分钟+30秒。如果定义超时时间为timeout，则超时时长的计算公式为：<br>    timeout  = 2 <em> heartbeat.recheck.interval(单位毫秒) + 10 </em> dfs.heartbeat.interval(单位秒)。</p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 需求：</div><div class="line"> * 有个好友列表数据，参考：fans.txt文件。冒号前是一个用户，冒号后是该用户的所有好友（数据中的好友关系是单向的）。</div><div class="line"> * 1、求出哪些人两两之间有共同好友，及他俩的共同好友都有谁？</div><div class="line"> * 2、求互粉的人(待实现......)</div><div class="line"> * 技术点：</div><div class="line"> * 1.首先考虑你要清楚原始数据和得到的最终数据是什么格式 如：</div><div class="line"> * 原始数据:	A:B,C,D,F,E,O</div><div class="line">			B:A,C,E,K</div><div class="line">			C:F,A,D,I</div><div class="line">      最终数据:	A-B C,E</div><div class="line">      		A-C D,F</div><div class="line">      		B-C A</div><div class="line">      接下来反推：</div><div class="line">     reduce：输出：A-B C,E</div><div class="line">      			  A-C D,F</div><div class="line">      		 输入：&lt;A-B,C&gt; &lt;A-B,E&gt;</div><div class="line">        map:输出：&lt;I-K,C&gt; &lt;I-C,C&gt;,&lt;I-B,C&gt; ....</div><div class="line">        	输入：C I,K,C,B,G,F,H,O,D</div><div class="line">   ——————————————————————————————————————————————————————————</div><div class="line">    reduce: 输出：C I,K,C,B,G,F,H,O,D,&lt;好友，人，人，人.....&gt;</div><div class="line">      		输入：&lt;C,A&gt;&lt;C,B&gt;&lt;C,E&gt;&lt;C,F&gt;&lt;C,G&gt;......(有序)</div><div class="line">    map:	输出：&lt;B,A&gt;&lt;C,A&gt;&lt;C,B&gt;&lt;E,B&gt;......</div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月28日 上午10:52:00</div><div class="line"> */</div><div class="line">public class SocialContactFansJob1 &#123;</div><div class="line"></div><div class="line">	static class SharedFriendsStepOneMapper extends Mapper&lt;LongWritable, Text, Text, Text&gt;&#123;</div><div class="line">		@Override</div><div class="line">		protected void map(LongWritable key, Text value,</div><div class="line">				Mapper&lt;LongWritable, Text, Text, Text&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			String[] fields = value.toString().split(&quot;:&quot;);</div><div class="line">			String person = fields[0]; //用户</div><div class="line">			String friends = fields[1];//好友列表</div><div class="line">			for (String friend : friends.split(&quot;,&quot;)) &#123;</div><div class="line">				//输出&lt;好友，人&gt;&lt;B,A&gt;&lt;C,A&gt;&lt;C,B&gt;&lt;E,B&gt;......</div><div class="line">				context.write(new Text(friend), new Text(person));</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	static class SharedFriendsStepOneReducer extends Reducer&lt;Text, Text, Text, Text&gt;&#123;</div><div class="line">		@Override</div><div class="line">		protected void reduce(Text k, Iterable&lt;Text&gt; v,</div><div class="line">				Reducer&lt;Text, Text, Text, Text&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			</div><div class="line">			StringBuffer sb = new StringBuffer();</div><div class="line">			for (Text person : v) &#123;</div><div class="line">				sb.append(person).append(&quot;,&quot;);</div><div class="line">			&#125;</div><div class="line">			//输出&lt;好友，人，人,人......&gt;</div><div class="line">			context.write(k, new Text(sb.toString()));</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123;</div><div class="line">		Configuration cf = new Configuration();</div><div class="line">		Job job = Job.getInstance(cf);</div><div class="line">		FileSystem fs  = FileSystem.newInstance(cf);</div><div class="line">		</div><div class="line">		//指定本地jar所在的路径</div><div class="line">		job.setJarByClass(SocialContactFansJob1.class);</div><div class="line">		</div><div class="line">		//指定job所需要的map/reduce业务类</div><div class="line">		job.setMapperClass(SharedFriendsStepOneMapper.class);</div><div class="line">		job.setReducerClass(SharedFriendsStepOneReducer.class);</div><div class="line">		</div><div class="line">		//指定map的输出kv类型</div><div class="line">		//job.setMapOutputKeyClass(Text.class);</div><div class="line">		//job.setMapOutputValueClass(Text.class);</div><div class="line">		</div><div class="line">		//指定最终输出数据kv类型</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(Text.class);</div><div class="line">		</div><div class="line">		//指定job输入原始目录和输出目录</div><div class="line">		FileInputFormat.setInputPaths(job, new Path(args[0]));</div><div class="line">		Path outPath =new Path(args[1]);</div><div class="line">		if (fs.exists(outPath)) &#123;</div><div class="line">			fs.delete(outPath, true);</div><div class="line">		&#125;</div><div class="line">		FileOutputFormat.setOutputPath(job, outPath);</div><div class="line">		</div><div class="line">		//提交运行</div><div class="line">		boolean b = job.waitForCompletion(true);</div><div class="line">		System.exit(b?0:1);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line">public class SocialContactFansJob2 &#123;</div><div class="line"> </div><div class="line">	static class SharedFriendsStepTwoMapper extends Mapper&lt;LongWritable, Text, Text, Text&gt; &#123;</div><div class="line">		@Override</div><div class="line">		protected void map(LongWritable key, Text value,</div><div class="line">				Mapper&lt;LongWritable, Text, Text, Text&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			//输入数据为上一个job的输出数据格式为</div><div class="line">			//C I,K,C,B,G,F,H,O,D</div><div class="line">			String[] fields = value.toString().split(&quot;\t&quot;);</div><div class="line">			String friend= fields[0];</div><div class="line">			String[] persons = fields[1].split(&quot;,&quot;);</div><div class="line">			Arrays.sort(persons);</div><div class="line">			//组合成&lt;I-K,C&gt; &lt;I-B,C&gt;,&lt;I-C,C&gt; </div><div class="line">			for (int i = 0; i &lt; persons.length-1; i++) &#123;</div><div class="line">				for (int j = i+1; j &lt; persons.length; j++) &#123;</div><div class="line">					context.write(new Text(persons[i] + &quot;-&quot; + persons[j]), new Text(friend));</div><div class="line">				&#125;</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	static class SharedFriendsStepTwoReducer extends Reducer&lt;Text, Text, Text, Text&gt;&#123;</div><div class="line">		@Override</div><div class="line">		protected void reduce(Text k, Iterable&lt;Text&gt; v,</div><div class="line">				Reducer&lt;Text, Text, Text, Text&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			StringBuffer sb = new StringBuffer();</div><div class="line">			for (Text friend : v) &#123;</div><div class="line">				sb.append(friend).append(&quot; &quot;);</div><div class="line">			&#125;</div><div class="line">			context.write(k, new Text(sb.toString()));</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123;</div><div class="line">		Configuration cf = new Configuration();</div><div class="line">		Job job = Job.getInstance(cf);</div><div class="line">		FileSystem fs = FileSystem.newInstance(cf);</div><div class="line">		</div><div class="line">		//指定jar所在的路径</div><div class="line">		job.setJarByClass(SocialContactFansJob2.class);</div><div class="line">		</div><div class="line">		//指定job所需要的map/reduce的业务类</div><div class="line">		job.setMapperClass(SharedFriendsStepTwoMapper.class);</div><div class="line">		job.setReducerClass(SharedFriendsStepTwoReducer.class);</div><div class="line">		</div><div class="line">		//指定最终的输出数据kv类型</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(Text.class);</div><div class="line">		//指定job的原始数据目录和输出目录</div><div class="line">		FileInputFormat.setInputPaths(job, new Path(args[0]));</div><div class="line">		Path outPath = new Path(args[1]);</div><div class="line">		if (fs.exists(outPath)) &#123;</div><div class="line">			fs.delete(outPath, true);</div><div class="line">		&#125;</div><div class="line">		FileOutputFormat.setOutputPath(job, outPath);</div><div class="line">		</div><div class="line">		//提交运行</div><div class="line">		boolean b = job.waitForCompletion(true);</div><div class="line">		System.exit(b?0:1);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -615,7 +611,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/24/FTP接口数据采集/">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/29/自定义combine/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="zhoujian">
@@ -640,8 +636,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/12/24/FTP接口数据采集/" itemprop="url">
-                  FTP接口数据采集
+                <a class="post-title-link" href="/2016/12/29/自定义combine/" itemprop="url">
+                  自定义combine
                 </a>
               
             
@@ -655,8 +651,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-24T20:08:48+08:00">
-                2016-12-24
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-29T21:50:58+08:00">
+                2016-12-29
               </time>
             
 
@@ -724,12 +720,7 @@
           <!--/noindex-->
         
           
-            <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>从外部购买数据，数据提供方会实时将数据推送到6台FTP服务器上，我方部署6台接口采集机来对接采集数据，并上传到HDFS中</p>
-<p>提供商在FTP上生成数据的规则是以小时为单位建立文件夹(2016-03-11-10)，每分钟生成一个文件（00.dat,01.data,02.dat,……..）</p>
-<p>提供方不提供数据备份，推送到FTP服务器的数据如果丢失，不再重新提供，且FTP服务器磁盘空间有限，最多存储最近10小时内的数据</p>
-<p>由于每一个文件比较小，只有150M左右，因此，我方在上传到HDFS过程中，需要将15分钟时段的数据合并成一个文件上传到HDFS</p>
-<p>为了区分数据丢失的责任，我方在下载数据时最好进行校验</p>
-<p>未完待续 详情资料正在整理中……</p>
+            <p>待处理</p>
 
           
         
@@ -768,7 +759,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/23/网站或APP点击流日志数据挖掘系统/">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/29/自定义partitioner和排序-流量统计分析/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="zhoujian">
@@ -793,8 +784,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/12/23/网站或APP点击流日志数据挖掘系统/" itemprop="url">
-                  网站或APP点击流日志数据挖掘系统
+                <a class="post-title-link" href="/2016/12/29/自定义partitioner和排序-流量统计分析/" itemprop="url">
+                  自定义partitioner和排序-流量统计分析
                 </a>
               
             
@@ -808,8 +799,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-23T23:26:22+08:00">
-                2016-12-23
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-29T21:50:45+08:00">
+                2016-12-29
               </time>
             
 
@@ -877,14 +868,10 @@
           <!--/noindex-->
         
           
-            <h2 id="需求描述"><a href="#需求描述" class="headerlink" title="需求描述"></a>需求描述</h2><p>“Web点击流日志”包含着网站运营很重要的信息，通过日志分析，我们可以知道网站的访问量，哪个网页访问人数最多，哪个网页最有价值，广告转化率、访客的来源信息，访客的终端信息等。</p>
-<h2 id="数据来源"><a href="#数据来源" class="headerlink" title="数据来源"></a>数据来源</h2><p>数据主要是用户的点击行为记录，获取方式通常是在页面内预埋js代码，为页面想要监听的标签绑定事件，只要用户点击或移动到标签就会触发ajax请求到后台servlet，用log4j记录下日志信息，在后台服务器nginx、tomcat不断产生增长日志文件。</p>
-<h2 id="数据量分析"><a href="#数据量分析" class="headerlink" title="数据量分析"></a>数据量分析</h2><p>对于一般的中型网站(10W的PV以上)，每天会产生1G以上的web日志文件。<br>对于大型或超大型网站,可能每小时就会产生10G的数据量。<br>具体来说，比如某电子商务网站，在线团购业务。每日PV数100w，独立IP数5w。用户通常在工作日上午10:00-12:00和下午15:00-18:00访问量最大。日间主要是通过PC端浏览器访问，休息日及夜间通过移动设备访问较多。网站搜索浏量占整个网站的80%，PC用户不足1%的用户会消费，移动用户有5%会消费。</p>
-<p>对于日志的这种规模的数据，用HADOOP进行日志分析，是最适合不过的了。</p>
-<h2 id="流程图解析"><a href="#流程图解析" class="headerlink" title="流程图解析"></a>流程图解析</h2><p><img src="http://zhoujian.lol/images/数据流程图.png" alt="images"></p>
-<p>数据采集：定制开发采集程序，或使用开源框架FLUME<br>数据预处理：定制开发mapreduce程序运行于hadoop集群<br>数据仓库技术：基于hadoop之上的Hive<br>数据导出：基于hadoop的sqoop数据导入导出工具<br>数据可视化：定制开发web程序或使用kettle(etl工具)等产品<br>整个过程的流程调度：hadoop生态圈中的oozie工具或其他类似开源产品</p>
-<h2 id="项目技术架构图"><a href="#项目技术架构图" class="headerlink" title="项目技术架构图"></a>项目技术架构图</h2><p><img src="http://zhoujian.lol/images/技术架构图.png" alt="image"></p>
-<h2 id="推荐系统架构"><a href="#推荐系统架构" class="headerlink" title="推荐系统架构"></a>推荐系统架构</h2><p><img src="http://zhoujian.lol/images/推荐系统.jpg" alt="image"></p>
+            <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 需求： </div><div class="line"> * 1、对流量日志中的用户统计总上、下行流量、总流量。 </div><div class="line"> * 2、按照总流量大小倒序排序。 </div><div class="line"> * 3、按照手机号的归属地，将结果数据输出到不同的省份文件中。(2,3 不能同时进行全局排序？)</div><div class="line"> * 技术点：</div><div class="line"> * 1、自定义javaBean用来在mapreduce中充当value，javaBean要实现WritableComparable接口，覆写compareTo方法实现排序逻辑。</div><div class="line"> * 2、需要2个job，第二个job读入第一个job输出，将flowBean作为第二个job的mmap的key。</div><div class="line"> * 3、自定义Partitioner，根据自定义的partition逻辑设置相应数量的reduce task。</div><div class="line"> * </div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月27日 下午2:54:00</div><div class="line"> */</div><div class="line">public class FlowBean implements WritableComparable&lt;FlowBean&gt; &#123;</div><div class="line"></div><div class="line">	private long upFlow;// 上行流量</div><div class="line">	private long downFlow;// 下行流量</div><div class="line">	private long sumFlow; // 总流量</div><div class="line"></div><div class="line">	public FlowBean(long upFlow, long downFlow) &#123;</div><div class="line">		this.upFlow = upFlow;</div><div class="line">		this.downFlow = downFlow;</div><div class="line">		this.sumFlow = upFlow + downFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	//反序列化时需要反射调用空参数的构造方法</div><div class="line">	public FlowBean() &#123;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	// 反序列化</div><div class="line">	@Override</div><div class="line">	public void readFields(DataInput in) throws IOException &#123;</div><div class="line">		upFlow = in.readLong();</div><div class="line">		downFlow = in.readLong();</div><div class="line">		sumFlow = in.readLong();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	// 序列化</div><div class="line">	@Override</div><div class="line">	public void write(DataOutput out) throws IOException &#123;</div><div class="line">		out.writeLong(upFlow);</div><div class="line">		out.writeLong(downFlow);</div><div class="line">		out.writeLong(sumFlow);;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public int compareTo(FlowBean o) &#123;</div><div class="line">		return this.sumFlow&gt;o.getSumFlow()?-1:1;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public String toString() &#123;</div><div class="line">		return upFlow + &quot;\t&quot; + downFlow + &quot;\t&quot; + sumFlow;</div><div class="line">	&#125;</div><div class="line">	public void set(long upFlow, long downFlow) &#123;</div><div class="line">		this.upFlow = upFlow;</div><div class="line">		this.downFlow = downFlow;</div><div class="line">		this.sumFlow = upFlow + downFlow;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public Long getUpFlow() &#123;</div><div class="line">		return upFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setUpFlow(long upFlow) &#123;</div><div class="line">		this.upFlow = upFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public Long getDownFlow() &#123;</div><div class="line">		return downFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setDownFlow(long downFlow) &#123;</div><div class="line">		this.downFlow = downFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public Long getSumFlow() &#123;</div><div class="line">		return sumFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setSumFlow(long sumFlow) &#123;</div><div class="line">		this.sumFlow = sumFlow;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">public class FlowCountJob &#123;</div><div class="line"></div><div class="line">	</div><div class="line">	static class FlowCountMapper extends Mapper&lt;LongWritable, Text, Text, FlowBean&gt;&#123;</div><div class="line">		@Override</div><div class="line">		protected void map(LongWritable key, Text value,</div><div class="line">				Mapper&lt;LongWritable, Text, Text, FlowBean&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			String[] fields = value.toString().split(&quot;\t&quot;); //将一行内容转换成String切分成字段</div><div class="line">			String phoneNum = fields[1]; //取出手机号</div><div class="line">			long upFlow = Long.parseLong(fields[fields.length-3]);//取出上行流量</div><div class="line">			long downFlow = Long.parseLong(fields[fields.length-2]); //取出下行流量</div><div class="line">			context.write(new Text(phoneNum), new FlowBean(upFlow,downFlow));</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	static class FlowCountReduce extends Reducer&lt;Text, FlowBean, Text, FlowBean&gt;&#123;</div><div class="line">		</div><div class="line">		@Override</div><div class="line">		protected void reduce(Text key, Iterable&lt;FlowBean&gt; values,</div><div class="line">				Reducer&lt;Text, FlowBean, Text, FlowBean&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			//reduce阶段会拿到&lt;183323,bean1&gt;&lt;183323,bean2&gt;&lt;183323,bean3&gt;&lt;183323,bean4&gt;.......</div><div class="line">			long sum_upFlow = 0;</div><div class="line">			long sum_downFlow = 0;</div><div class="line">			//遍历所有的bean将上行流量、下行流量进行累加</div><div class="line">			for (FlowBean flowBean : values) &#123;</div><div class="line">				sum_downFlow = flowBean.getDownFlow();</div><div class="line">				sum_upFlow = flowBean.getUpFlow();</div><div class="line">			&#125;</div><div class="line">			context.write(key, new FlowBean(sum_upFlow,sum_downFlow));</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException, URISyntaxException &#123;</div><div class="line">		Configuration cf = new Configuration();</div><div class="line">		FileSystem fs =FileSystem.newInstance(cf);</div><div class="line">		//集群模式运行</div><div class="line">		////客户端去操作hdfs时，是有一个用户身份的，默认情况下hdfs客户端api会从jvm中获取一个参数 -DHADOOP_USER_NAME</div><div class="line">		cf.set(&quot;mapreduce.framework.name&quot;,&quot;local&quot;);</div><div class="line">//		cf.set(&quot;yarn.resourcemanager.hostname&quot;, &quot;hadoop1&quot;);</div><div class="line">//		cf.set(&quot;fs.defaultFS&quot;, &quot;hdfs://hadoop1:9000/&quot;);</div><div class="line">		</div><div class="line">		Job job = Job.getInstance(cf);</div><div class="line">		job.setJarByClass(FlowCountJob.class);//指定本程序jar包所在的路径</div><div class="line">		</div><div class="line">		//指定本程序job要使用的mapper/reduce业务类</div><div class="line">		job.setMapperClass(FlowCountMapper.class);</div><div class="line">		job.setReducerClass(FlowCountReduce.class);</div><div class="line">		</div><div class="line">		//指定自定义分区和响应分区数据量的reduce task</div><div class="line">		job.setPartitionerClass(ProvincePartitioner.class);</div><div class="line">		job.setNumReduceTasks(5);</div><div class="line">		</div><div class="line">		//指定map输出的数据的kv类型</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(FlowBean.class);</div><div class="line">		</div><div class="line">		//指定最终输出的数据kv类型</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(FlowBean.class);</div><div class="line">		</div><div class="line">		//指定job输入原始目录和输出结果目录</div><div class="line">		FileInputFormat.setInputPaths(job, new Path(args[0]));</div><div class="line">		Path outPath = new Path(args[1]);</div><div class="line">		//判断目录是否存在 存在则删除</div><div class="line">		if (fs.exists(outPath)) &#123;</div><div class="line">			fs.delete(outPath, true);</div><div class="line">		&#125;</div><div class="line">		FileOutputFormat.setOutputPath(job, outPath);</div><div class="line">		</div><div class="line">		//将job中配置的相关参数，以及job所用的java类所在的jar包，提交给yarn去运行</div><div class="line">		/*job.submit();*/</div><div class="line">		boolean b = job.waitForCompletion(true);</div><div class="line">		System.exit(b?0:1);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 读取统计好的数据进行排序</div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月27日 下午8:20:45</div><div class="line"> */</div><div class="line">public class FlowCountSortJob &#123;</div><div class="line"></div><div class="line">	static class FlowCountSortMapper extends Mapper&lt;LongWritable, Text, FlowBean, Text&gt;&#123;</div><div class="line">		</div><div class="line">		FlowBean bean=new FlowBean();</div><div class="line">		Text v = new Text();</div><div class="line">		</div><div class="line">		@Override</div><div class="line">		protected void map(LongWritable key, Text value,</div><div class="line">				Mapper&lt;LongWritable, Text, FlowBean, Text&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			String[] fields = value.toString().split(&quot;\t&quot;);</div><div class="line">			String phoneNbr = fields[0];</div><div class="line">			long sum_upFlow = Long.parseLong(fields[1]);//上行流量</div><div class="line">			long sum_downFlow = Long.parseLong(fields[2]);//下行流量</div><div class="line">			bean.set(sum_upFlow,sum_downFlow);</div><div class="line">			v.set(phoneNbr);</div><div class="line">			context.write(bean, v);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	static class FlowCountSortReducer extends Reducer&lt;FlowBean, Text, Text, FlowBean&gt;&#123;</div><div class="line">		@Override</div><div class="line">		protected void reduce(FlowBean k, Iterable&lt;Text&gt; v,</div><div class="line">				Reducer&lt;FlowBean, Text, Text, FlowBean&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			context.write(v.iterator().next(), k);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123;</div><div class="line">		Configuration cf = new Configuration();</div><div class="line">		//集群模式</div><div class="line">//		cf.set(&quot;mapreduce.framework.name&quot;, &quot;yarn&quot;);</div><div class="line">//		cf.set(&quot;yarn.resourcemanager.hostname&quot;, &quot;hadoop1&quot;);</div><div class="line">		FileSystem fs =FileSystem.newInstance(cf);</div><div class="line">		Job job = Job.getInstance(cf);</div><div class="line">		</div><div class="line">		//指定本程序jar包所在的路径</div><div class="line">		job.setJarByClass(FlowCountSortJob.class);</div><div class="line">		</div><div class="line">		//指定本程序job使用的mapper/reduce业务类</div><div class="line">		job.setMapperClass(FlowCountSortMapper.class);</div><div class="line">		job.setReducerClass(FlowCountSortReducer.class);</div><div class="line">		</div><div class="line">		//指定自定义分区和响应分区数据量的reduce task</div><div class="line">		job.setPartitionerClass(ProvincePartitioner.class);</div><div class="line">		job.setNumReduceTasks(5);</div><div class="line">		</div><div class="line">		//指定mapper输出数据kv类型</div><div class="line">		job.setMapOutputKeyClass(FlowBean.class);</div><div class="line">		job.setMapOutputValueClass(Text.class);</div><div class="line">		</div><div class="line">		//指定最终输出数据kv类型</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(FlowBean.class);</div><div class="line">		</div><div class="line">		//指定job输入原始目录和输出结果目录</div><div class="line">		FileInputFormat.setInputPaths(job, new Path(args[0]));</div><div class="line">		Path outPath = new Path(args[1]);</div><div class="line">		if (fs.exists(outPath)) &#123;</div><div class="line">			fs.delete(outPath, true);</div><div class="line">		&#125;</div><div class="line">		FileOutputFormat.setOutputPath(job, outPath);</div><div class="line">		</div><div class="line">		//提交运行</div><div class="line">		boolean b = job.waitForCompletion(true);</div><div class="line">		System.exit(b?0:1);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 自定义分区</div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月29日 下午9:35:14</div><div class="line"> */</div><div class="line">public class ProvincePartitioner extends Partitioner&lt;Text, FlowBean&gt;&#123;</div><div class="line"></div><div class="line">	public static HashMap&lt;String, Integer&gt; proviceDict = new HashMap&lt;String, Integer&gt;();</div><div class="line">	static&#123;</div><div class="line">			proviceDict.put(&quot;136&quot;, 0);</div><div class="line">			proviceDict.put(&quot;137&quot;, 1);</div><div class="line">			proviceDict.put(&quot;138&quot;, 2);</div><div class="line">			proviceDict.put(&quot;139&quot;, 3);</div><div class="line">			System.out.println(&quot;||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\\\\&quot;);</div><div class="line">	&#125;</div><div class="line">	@Override</div><div class="line">	public int getPartition(Text k, FlowBean v, int partitionNum ) &#123;</div><div class="line">		String prefix = k.toString().substring(0,3);</div><div class="line">		Integer proviceId = proviceDict.get(prefix);</div><div class="line">		return proviceId == null?4:proviceId;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -923,7 +910,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/22/zookeeper/">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/29/自定义inputFormat/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="zhoujian">
@@ -948,8 +935,8 @@
             
               
                 
-                <a class="post-title-link" href="/2016/12/22/zookeeper/" itemprop="url">
-                  zookeeper
+                <a class="post-title-link" href="/2016/12/29/自定义inputFormat/" itemprop="url">
+                  自定义inputFormat
                 </a>
               
             
@@ -963,8 +950,8 @@
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-22T22:31:53+08:00">
-                2016-12-22
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-29T21:50:26+08:00">
+                2016-12-29
               </time>
             
 
@@ -1032,84 +1019,10 @@
           <!--/noindex-->
         
           
-            <h2 id="是什么"><a href="#是什么" class="headerlink" title="是什么"></a>是什么</h2><p>分布式协调服务框架，那么怎么理解分布式，其实就是一个完整的应用或功能或业务被分成若干个独立的部分或子业务，部署在不同的服务器上，所有部分去共同完成一个功能。<br>优点：负载由单个节点转移到多个，提高效率缓解压力<br>      避免了单个节点失效，整个系统崩溃的危险<br>      提高利用率，子业务可以被反复使用<br>而协调服务说白了就是为其它应用程序服务的。<br>zookeeper本身也是分布式的(半数以上节点存活就能提供服务)</p>
-<h2 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h2><p>总的来说有2个<br>管理用户提交的数据(存储或读取)<br>为数据提供监听服务</p>
-<h2 id="集群角色分配原理-选举"><a href="#集群角色分配原理-选举" class="headerlink" title="集群角色分配原理(选举)"></a>集群角色分配原理(选举)</h2><p>以3台zookeepr为例，当启动第一个服务启动时发现配置文件中由3个server就会通过paxos算法进行投票，发现集群中没有leader，并且只有自己一个节点，就会投票给自己。当第二个服务启动后也发现集群中没有leader但是有一个folwer就会投给自己和第一个服务各一票，第一个服务也发现新节点也会重新投票，投给自己和对方一票，这时票数时2:2由于节点数已经过半所以paxos根据2个节点的myid号大小，将大的变为leader，其他节点在启动就会以这个leader为主，leader在维护各个folwer中的数据(这里由些偏差，待更新……)</p>
-<h2 id="java客户端操作及监听器原理"><a href="#java客户端操作及监听器原理" class="headerlink" title="java客户端操作及监听器原理"></a>java客户端操作及监听器原理</h2><hr>
-<p>public class SimpleZkClient {<br>    private static final String CONNECTSTRING = “192.168.25.61:2181,192.168.25.62:2181,192.168.25.63:2181”;<br>    private static final int SESSIONTIMEOUT = 200000;<br>    ZooKeeper zkClient = null;</p>
-<pre><code>@Before
-public void init() throws IOException {
-
-    // 初始化 Watcher监听节点的变化 此监听可以被后面的使用
-    zkClient = new ZooKeeper(CONNECTSTRING, SESSIONTIMEOUT, new Watcher() {
-
-        @Override
-        public void process(WatchedEvent event) {
-            System.out.println(event.getType() + &quot;---------- &quot;
-                    + event.getPath());
-            try {
-                // 因为只会监听一次，实际业务场景要时时监听
-                zkClient.getChildren(&quot;/&quot;, true);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    });
-}
-
-// 创建节点到zk中
-@Test
-public void testCreate() throws KeeperException, InterruptedException {
-
-    // 1.znode路径及名称 2。节点的内容 3。安全策略 4。创建节点的模式（有4种 瞬时（带序号） 持久）
-    zkClient.create(&quot;/uuuu&quot;, &quot;test&quot;.getBytes(), Ids.OPEN_ACL_UNSAFE,
-            CreateMode.EPHEMERAL_SEQUENTIAL);
-}
-
-// 判断zode是否存在 返回许多元数据stat
-@Test
-public void testExit() throws KeeperException, InterruptedException {
-    Stat stat = zkClient.exists(&quot;/&quot;, false);
-    System.out.println(stat == null ? &quot;not exists&quot; : &quot;exists&quot;);
-}
-
-// 获取zk中的子节点
-@Test
-public void testGet() throws KeeperException, InterruptedException {
-    // true 表示给&quot;/&quot;节点加监听事件 用上一个监听
-    List&lt;String&gt; list = zkClient.getChildren(&quot;/&quot;, true);
-    for (String string : list) {
-        System.out.println(string);
-    }
-    Thread.sleep(Long.MAX_VALUE);
-}
-
-// 获取zode的数据 
-@Test
-public void getData() throws KeeperException, InterruptedException{
-    //1.znode的路径名 2.是否监听 3.获取版本 默认最新的
-    byte[] data = zkClient.getData(&quot;/uuuu&quot;, false, null);
-    System.out.println(new String(data));
-}
-
-//删除znode
-@Test
-public void deleteZnode() throws InterruptedException, KeeperException{
-    //参数-1，表示删除所有版本
-    zkClient.delete(&quot;/uuuu&quot;, -1);
-}
-
-//修改znode
-@Test
-public void setData() throws KeeperException, InterruptedException{
-    zkClient.setData(&quot;/test&quot;, &quot;i miss tangwei&quot;.getBytes(), -1);
-}
-</code></pre><p>}<br><img src="http://zhoujian.lol/images/zk监听器.png" alt="image"></p>
-<p>其实所谓的监听就是服务端和客户端的通信(底层socket协议或rpc协议 )，zkClient有个连接zkServer的线程，当调用某个方法操作znode的时候如:调用getClildren()时会想zk集群中传递客户端的ip、port、path（监听的路径），zk会保存这些信息，当监听的路径发生改变时zk集群会根据以上信息找到zkClient的listern线程，listern线程调用process方法触发事件反馈给客户端处理。</p>
-<h2 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h2><p>主从协调(HA功能)、统一配置管理、统一名称服务(dubbo服务注册)、服务节点动态上下线、分布式共享锁</p>
-<h3 id="分布式应用服务器上下线动态感知程序开发"><a href="#分布式应用服务器上下线动态感知程序开发" class="headerlink" title="分布式应用服务器上下线动态感知程序开发"></a>分布式应用服务器上下线动态感知程序开发</h3><p>需求：客户端实时洞察到服务器的变化(宕机、添加)<br>解决思路：首先，服务器启动时就要向zk中注册Ephemeral node 信息(包括服务器地址，节点名，序列号……),然后，客户端启动时就要去getChildren获取当前在线服务器列表，并注册监听。当服务器某个节点挂掉之后临时znode会被删除，zk就会通知客户端的监听线程，客户端监听到上下znode变化事件就会调用process方法，在方法中重新获取在线服务器列表在监听。</p>
-<h3 id="分布式共享锁程序开发"><a href="#分布式共享锁程序开发" class="headerlink" title="分布式共享锁程序开发"></a>分布式共享锁程序开发</h3><p>在集中式系统中有冲突、线程问题用sychronized锁机制，在分布式中通常会想到第三方去解决 如zookeeper。<br>需求：很多客户端都去请求共享资源(网络接口)，可能会有冲突情况，怎么解决<br>解决思路：客户端到zk中去注册锁信息(uuid或其它序号)，每次客户端请求共享资源时都会通过zk去请求，zk会根据各个客户端的锁信息如序号取最小值(或最大值)，获取资源成功后删除锁信息，这是触发监听事件通知其他客户端在获取资源，删除的客户端重新生成序号在排队等待。</p>
-
+            <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>无论hdfs还是mapreduce，对于小文件都有损效率，实践中，又难免面临处理大量小文件的场景，此时，就需要有相应解决方案</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>小文件的优化无非以下几种方式：<br>1、    在数据采集的时候，就将小文件或小批数据合成大文件再上传HDFS<br>2、    在业务处理之前，在HDFS上使用mapreduce程序对小文件进行合并<br>3、    在mapreduce处理时，可采用combineInputFormat提高效率</p>
+<p>这里我采用第二种方式<br>程序的核心机制：<br>自定义一个InputFormat<br>改写RecordReader，实现一次读取一个完整文件封装为KV<br>在输出时使用SequenceFileOutPutFormat输出合并文件</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2>
           
         
       
@@ -1147,7 +1060,7 @@ public void setData() throws KeeperException, InterruptedException{
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/19/JVM浅谈/">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/29/自定义outputFormat/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="zhoujian">
@@ -1172,8 +1085,8 @@ public void setData() throws KeeperException, InterruptedException{
             
               
                 
-                <a class="post-title-link" href="/2016/12/19/JVM浅谈/" itemprop="url">
-                  JVM浅谈
+                <a class="post-title-link" href="/2016/12/29/自定义outputFormat/" itemprop="url">
+                  自定义outputFormat
                 </a>
               
             
@@ -1187,302 +1100,8 @@ public void setData() throws KeeperException, InterruptedException{
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-19T10:30:19+08:00">
-                2016-12-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <!--/noindex-->
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/19/常见易混淆命令(持续更新中......)/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="zhoujian">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/uploads/hexo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZhouJian`s Notes">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZhouJian`s Notes" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/19/常见易混淆命令(持续更新中......)/" itemprop="url">
-                  常见易混淆命令
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-19T10:15:23+08:00">
-                2016-12-19
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-              <span class="post-meta-divider">|</span>
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-                  ， 
-                
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/Linux/" itemprop="url" rel="index">
-                    <span itemprop="name">Linux</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <!--/noindex-->
-        
-          
-            
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/17/SSH协议/">
-
-  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
-    <meta itemprop="name" content="zhoujian">
-    <meta itemprop="description" content="">
-    <meta itemprop="image" content="/uploads/hexo.jpg">
-  </span>
-
-  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-    <meta itemprop="name" content="ZhouJian`s Notes">
-    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
-      <img style="display:none;" itemprop="url image" alt="ZhouJian`s Notes" src="">
-    </span>
-  </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2016/12/17/SSH协议/" itemprop="url">
-                  SSH协议
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-17T23:42:43+08:00">
-                2016-12-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-29T21:50:14+08:00">
+                2016-12-29
               </time>
             
 
@@ -1550,12 +1169,11 @@ public void setData() throws KeeperException, InterruptedException{
           <!--/noindex-->
         
           
-            <h2 id="浅述"><a href="#浅述" class="headerlink" title="浅述"></a>浅述</h2><p>简单点说，ssh是网络安全外壳协议。用于计算机之间的加密协议，即使信息被截获密码也不会泄露（为什么自己去百度，这里不做重点）</p>
-<p>在大数据领域中ssh用于安全登录，被称为免密码登录。</p>
-<h2 id="通常用法"><a href="#通常用法" class="headerlink" title="通常用法"></a>通常用法</h2><p>ssh-keygen [-t][-p] rsa/dsa(默认rsa算法可以去掉参数t)<br>此命令会在.ssh文件夹下生产id_rsa id_rsa.pub或id_dsa id_dsa.pub,即私钥 公钥</p>
-<h2 id="实现免密码登录"><a href="#实现免密码登录" class="headerlink" title="实现免密码登录"></a>实现免密码登录</h2><p>1.通过scp 公钥 用户名@主机名:/.ssh 将公钥拷贝到另一个主机中<br>2.在另一台主机中 通过cat 公钥 &gt; /.ssh/authorized_keys 进行授权操作。<br>上面2步可以简化为一步<br>ssh-copy-id 实现拷贝公钥的同时进行了授权操作，建议优先使用。</p>
-<h2 id="聊聊ssh验证机制"><a href="#聊聊ssh验证机制" class="headerlink" title="聊聊ssh验证机制"></a>聊聊ssh验证机制</h2><p>ssh有2种身份验证机制<br>1.用户名+密码（用xshell或secureCRT连接使用ssh支持这种机制）<br>2.密钥验证<br>目标主机会跟根据授权文件中是否有请求方的公钥信息，如果有则根据对方公钥生成加密信息，再将加密信息发给请求连接方，请求连接方根据自己的私钥去解密生成解密文件在发送给目标主机，目标主机判断正确则允许连接。</p>
-<h2 id="常见的连接错误"><a href="#常见的连接错误" class="headerlink" title="常见的连接错误"></a>常见的连接错误</h2><p>ssh_exchange_identification: Connection closed by remote host<br>方法一.把SSH连接数改大<br>方法二.检查/etc/hosts.deny和/etc/hosts.allow里面是否屏蔽了某些帐户</p>
+            <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>现有一些原始日志需要做增强解析处理，流程：<br>1、    从原始日志文件中读取数据<br>2、    根据日志中的一个URL字段到外部知识库中获取信息增强到原始日志<br>3、    如果成功增强，则输出到增强结果目录；如果增强失败，则抽取原始数据中URL字段输出到待爬清单目录</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>程序的关键点是要在一个mapreduce程序中根据数据的不同输出两类结果到不同目录，这类灵活的输出需求可以通过自定义outputformat来实现</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 需求：</div><div class="line"> * 现有一些原始日志需要做增强解析处理，流程：</div><div class="line">	1、	从原始日志文件中读取数据</div><div class="line">	2、	根据日志中的一个URL字段到外部知识库中获取信息增强到原始日志</div><div class="line">	3、	如果成功增强，则输出到增强结果目录；如果增强失败，则抽取原始数据中URL字段输出到待爬清单目录</div><div class="line"></div><div class="line">	分析：</div><div class="line">	程序的关键点是要在一个mapreduce程序中根据数据的不同输出两类结果到不同目录，这类灵活的输出需求可以通过自定义outputformat来实现</div><div class="line">	技术：</div><div class="line">	1、	在mapreduce中访问外部资源</div><div class="line">	2、	自定义outputformat，改写其中的recordwriter，改写具体输出数据的方法write()</div><div class="line"></div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月29日 上午11:57:38</div><div class="line"> */</div><div class="line">public class LogEnhanceJob &#123;</div><div class="line"></div><div class="line">	static class LogEnhanceMapper extends Mapper&lt;LongWritable, Text, Text, NullWritable&gt;&#123;</div><div class="line">		Text kText = new Text();</div><div class="line">		NullWritable  vNullWritable  = NullWritable.get();</div><div class="line">		Map&lt;String, String&gt; ruleMap = new HashMap&lt;String, String&gt;();</div><div class="line">		</div><div class="line">		//从数据库中加载规则信息到ruleMap中</div><div class="line">		@Override</div><div class="line">		protected void setup(</div><div class="line">				Mapper&lt;LongWritable, Text, Text, NullWritable&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			try &#123;</div><div class="line">				DBLoader.dbLoader(ruleMap);</div><div class="line">			&#125; catch (SQLException e) &#123;</div><div class="line">				e.printStackTrace();</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		@Override</div><div class="line">		protected void map(LongWritable key, Text value,</div><div class="line">				Mapper&lt;LongWritable, Text, Text, NullWritable&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			//在实际生产代码中，常常需要将数据处理过程中遇到的不合规数据行进行全局计数，类似这种需求可以借助mapreduce框架中提供的全局计数器来实现</div><div class="line">			Counter counter = context.getCounter(&quot;illegallogGroup&quot;, &quot;illegalLog&quot;);</div><div class="line">			String string = value.toString();</div><div class="line">			String[] fields = string.split(&quot;\t&quot;);</div><div class="line">			try &#123;</div><div class="line">				String url = fields[28];</div><div class="line">				String content = ruleMap.get(url);</div><div class="line">				//判断内容标签是否为空，如果为空，则只输出url到待爬清单；如果有值，则输出到增强日志</div><div class="line">				if (content == null) &#123;</div><div class="line">					kText.set(url + &quot;\t&quot;+ &quot;tocrawl&quot; + &quot;\n&quot;);</div><div class="line">					context.write(kText, vNullWritable);</div><div class="line">				&#125;else &#123;</div><div class="line">					kText.set(string + &quot;\t&quot; + content + &quot;\n&quot;);</div><div class="line">					context.write(kText, vNullWritable);</div><div class="line">				&#125;</div><div class="line">			&#125; catch (Exception e) &#123;</div><div class="line">				counter.increment(1);</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123;</div><div class="line">		Configuration conf = new Configuration();</div><div class="line">		FileSystem fs  = FileSystem.get(conf);</div><div class="line"></div><div class="line">		Job job = Job.getInstance(conf);</div><div class="line"></div><div class="line">		job.setJarByClass(LogEnhanceJob.class);</div><div class="line"></div><div class="line">		job.setMapperClass(LogEnhanceMapper.class);</div><div class="line"></div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(NullWritable.class);</div><div class="line">		// 要控制不同的内容写往不同的目标路径，可以采用自定义outputformat的方法</div><div class="line">		job.setOutputFormatClass(LogEnhanceOutputFormat.class);</div><div class="line"></div><div class="line">		FileInputFormat.setInputPaths(job, new Path(args[0]));</div><div class="line"></div><div class="line">		// 尽管我们用的是自定义outputformat，但是它是继承制fileoutputformat</div><div class="line">		// 在fileoutputformat中，必须输出一个_success文件，所以在此还需要设置输出path</div><div class="line">		Path outPath = new Path(args[1]);</div><div class="line">		if (fs.exists(outPath)) &#123;</div><div class="line">			fs.delete(outPath, true);</div><div class="line">		&#125;</div><div class="line">		FileOutputFormat.setOutputPath(job, new Path(args[1]));</div><div class="line"></div><div class="line">		// 不需要reducer</div><div class="line">		job.setNumReduceTasks(0);</div><div class="line"></div><div class="line">		job.waitForCompletion(true);</div><div class="line">		System.exit(0);</div><div class="line"></div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * maptask或者reducetask在最终输出时，先调用OutputFormat的getRecordWriter方法拿到一个RecordWriter</div><div class="line"> * 然后再调用RecordWriter的write(k,v)方法将数据写出</div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月29日 下午12:57:59</div><div class="line"> */</div><div class="line">public class LogEnhanceOutputFormat extends FileOutputFormat&lt;Text, NullWritable&gt;&#123;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public RecordWriter&lt;Text, NullWritable&gt; getRecordWriter(</div><div class="line">			TaskAttemptContext context) throws IOException, InterruptedException &#123;</div><div class="line">		FileSystem fs = FileSystem.get(context.getConfiguration());</div><div class="line"></div><div class="line">		Path enhancePath = new Path(&quot;C:/hadoopTest/webLogEnhance/log.dat&quot;);</div><div class="line">		Path tocrawlPath = new Path(&quot;C:/hadoopTest/webLogEnhance/tocrawlurl.dat&quot;);</div><div class="line"></div><div class="line">		FSDataOutputStream enhancedOs = fs.create(enhancePath);</div><div class="line">		FSDataOutputStream tocrawlOs = fs.create(tocrawlPath);</div><div class="line"></div><div class="line">		return new EnhanceRecordWriter(enhancedOs, tocrawlOs);</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	static class EnhanceRecordWriter extends RecordWriter&lt;Text, NullWritable&gt; &#123;</div><div class="line"></div><div class="line">		FSDataOutputStream enhancedOs = null;</div><div class="line">		FSDataOutputStream tocrawlOs = null;</div><div class="line">		public EnhanceRecordWriter(FSDataOutputStream enhancedOs,</div><div class="line">				FSDataOutputStream tocrawlOs) &#123;</div><div class="line">			super();</div><div class="line">			this.enhancedOs = enhancedOs;</div><div class="line">			this.tocrawlOs = tocrawlOs;</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		@Override</div><div class="line">		public void write(Text key, NullWritable value) throws IOException,</div><div class="line">				InterruptedException &#123;</div><div class="line">			String line = key.toString();</div><div class="line">			//如果写入的数据是待爬url 则写入待爬清单文件</div><div class="line">			if (line.contains(&quot;tocrawl&quot;)) &#123;</div><div class="line">				tocrawlOs.write(line.getBytes());</div><div class="line">			&#125;else &#123;</div><div class="line">				enhancedOs.write(line.getBytes());</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;</div><div class="line"></div><div class="line">		@Override</div><div class="line">		public void close(TaskAttemptContext context) throws IOException,</div><div class="line">				InterruptedException &#123;</div><div class="line">			if (tocrawlOs != null) &#123;</div><div class="line">				tocrawlOs.close();</div><div class="line">			&#125;</div><div class="line">			if (enhancedOs != null) &#123;</div><div class="line">				enhancedOs.close();</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 访问数据库资源 </div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月29日 下午12:19:05</div><div class="line"> */</div><div class="line">public class DBLoader &#123;</div><div class="line"></div><div class="line">	public static void dbLoader(Map&lt;String,String&gt; ruleMap) throws SQLException&#123;</div><div class="line">		Connection con = null;</div><div class="line">		Statement st = null;</div><div class="line">		ResultSet result = null;</div><div class="line">		try &#123;</div><div class="line">			Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</div><div class="line">			con = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/urldb&quot;, &quot;root&quot;, &quot;123456&quot;);</div><div class="line">			st = con.createStatement();</div><div class="line">			result = st.executeQuery(&quot;select url,content from url_rule&quot;);</div><div class="line">			while(result.next())&#123;</div><div class="line">				ruleMap.put(result.getString(1), result.getString(2));</div><div class="line">			&#125;</div><div class="line">		&#125; catch (ClassNotFoundException e) &#123;</div><div class="line">			e.printStackTrace();</div><div class="line">		&#125;finally&#123;</div><div class="line">			if (result != null) &#123;</div><div class="line">				result.close();</div><div class="line">			&#125;</div><div class="line">			if (st != null) &#123;</div><div class="line">				st.close();</div><div class="line">			&#125;</div><div class="line">			if (con != null) &#123;</div><div class="line">				con.close();</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 
           
         
@@ -1594,7 +1212,7 @@ public void setData() throws KeeperException, InterruptedException{
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/16/企业级服务器/">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/29/自定义GroupingComparator/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="zhoujian">
@@ -1619,8 +1237,8 @@ public void setData() throws KeeperException, InterruptedException{
             
               
                 
-                <a class="post-title-link" href="/2016/12/16/企业级服务器/" itemprop="url">
-                  企业级服务器
+                <a class="post-title-link" href="/2016/12/29/自定义GroupingComparator/" itemprop="url">
+                  自定义GroupingComparator
                 </a>
               
             
@@ -1634,8 +1252,8 @@ public void setData() throws KeeperException, InterruptedException{
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-16T23:34:43+08:00">
-                2016-12-16
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-29T21:49:32+08:00">
+                2016-12-29
               </time>
             
 
@@ -1703,14 +1321,159 @@ public void setData() throws KeeperException, InterruptedException{
           <!--/noindex-->
         
           
-            <p>LZ接触过hp系列的服务器，这里只对hp-DL580、hp-DL388、hp-DL380、hp-P4500等型号浅谈.</p>
-<h2 id="名词解释"><a href="#名词解释" class="headerlink" title="名词解释"></a>名词解释</h2><p>企业级：属于高档服务器,具有高内存带宽，大容量热插拔硬盘和热插拔电源，具有超强的数据处理能力<br>机架式：机架式服务器的外形看来不像计算机，而像交换机.<br>结构(几U)：U是一种表示服务器外部尺寸的单位,是unit的缩略语,1U=4.445cm</p>
-<p>注意：CPU数量绝对不是CPU核心 1个CPU叫单处理器，2个CPU叫双处理器。1个CPU可以是双核货单核。</p>
-<h2 id="HP-DL380（此款已停产）"><a href="#HP-DL380（此款已停产）" class="headerlink" title="HP-DL380（此款已停产）"></a>HP-DL380（此款已停产）</h2><p>此款服务器，售价在2-3W之间，内存标配为12G,可扩展到192G ,硬盘标配为584GB</p>
-<h2 id="hp-DL388"><a href="#hp-DL388" class="headerlink" title="hp-DL388"></a>hp-DL388</h2><p>此款服务器，售价在2W左右，内存标配为32G,可扩展到768G ,硬盘标配为584GB</p>
-<h2 id="HP-DL580"><a href="#HP-DL580" class="headerlink" title="HP-DL580"></a>HP-DL580</h2><p>此款服务器，售价在5.5W左右，内存标配为32G 可以最大扩展到2T内存以上，硬盘标配为4T。</p>
-<h2 id="HP-P4500"><a href="#HP-P4500" class="headerlink" title="HP-P4500"></a>HP-P4500</h2><p>此款系列服务器绝对高配了，售价在10W-20W之间，最大存储可达到24T</p>
-<h2 id="附带真实工作环境中的机房拓扑图"><a href="#附带真实工作环境中的机房拓扑图" class="headerlink" title="附带真实工作环境中的机房拓扑图"></a>附带真实工作环境中的机房拓扑图</h2><p><img src="http://zhoujian.lol/images/拓扑图1.png" alt="image"><br><img src="http://zhoujian.lol/images/拓扑图2.png" alt="image"></p>
+            <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>假设有如下订单数据<br>订单id    商品id    成交金额</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Order_0000001	Pdt_01	222.8</div><div class="line">Order_0000001	Pdt_05	25.8</div><div class="line">Order_0000002	Pdt_03	522.8</div><div class="line">Order_0000002	Pdt_04	122.4</div><div class="line">Order_0000002	Pdt_05	722.4</div><div class="line">Order_0000003	Pdt_01	222.8</div></pre></td></tr></table></figure>
+<p>现在需要求出每一个订单中成交金额最大的一笔交易</p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2><p>1、利用“订单id和成交金额”作为key，可以将map阶段读取到的所有订单数据按照id分区，按照金额排序，发送到reduce<br>2、在reduce端利用groupingcomparator将订单id相同的kv聚合成组，然后取第一个即是最大值</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/29/小文件优化策略/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="zhoujian">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/uploads/hexo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZhouJian`s Notes">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZhouJian`s Notes" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/29/小文件优化策略/" itemprop="url">
+                  小文件优化策略
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-29T21:49:02+08:00">
+                2016-12-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <!--/noindex-->
+        
+          
+            <p>1.在数据采集的时候，就将小文件或小批数据合成大文件再上传HDFS(最佳)</p>
+<p>2.在mapreduce处理时，可采用combineInputFormat提高效率(补刀)<br>combineInputFormat默认可以修改切片大小，来决定map tasks数量<br>    job.setInputFormatClass(CombineTextInputFormat.class);<br>    CombineTextInputFormat.setMaxInputSplitSize(job,大小)<br>    CombineTextInputFormat.setMinInputSplitSize(job,大小)<br>3.在业务处理之前，在HDFS上使用mapreduce程序对小文件进行合并<br>第三种是自定义一个InputFormat<br>    改写RecordReader对象，复写 nextKeyValue方法，getCurrentKey() getCurrentValue方法。()实现一次读取一个完整文件封装为KV<br>    在输出时使用SequenceFileOutPutFormat输出合并文件</p>
 
           
         
@@ -1749,7 +1512,7 @@ public void setData() throws KeeperException, InterruptedException{
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/15/谈谈程序员的几个阶段/">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/28/Mapreduce中的DistributedCache应用/">
 
   <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
     <meta itemprop="name" content="zhoujian">
@@ -1774,8 +1537,8 @@ public void setData() throws KeeperException, InterruptedException{
             
               
                 
-                <a class="post-title-link" href="/2016/12/15/谈谈程序员的几个阶段/" itemprop="url">
-                  谈谈程序员的几个阶段
+                <a class="post-title-link" href="/2016/12/28/Mapreduce中的DistributedCache应用/" itemprop="url">
+                  Mapreduce中的DistributedCache应用
                 </a>
               
             
@@ -1789,8 +1552,8 @@ public void setData() throws KeeperException, InterruptedException{
                 <i class="fa fa-calendar-o"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-15T14:26:22+08:00">
-                2016-12-15
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-28T21:20:30+08:00">
+                2016-12-28
               </time>
             
 
@@ -1808,8 +1571,19 @@ public void setData() throws KeeperException, InterruptedException{
               <span class="post-meta-item-text">分类于</span>
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/乱谈/" itemprop="url" rel="index">
-                    <span itemprop="name">乱谈</span>
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
                   </a>
                 </span>
 
@@ -1847,16 +1621,161 @@ public void setData() throws KeeperException, InterruptedException{
           <!--/noindex-->
         
           
-            <h2 id="关于程序员的几个阶段"><a href="#关于程序员的几个阶段" class="headerlink" title="关于程序员的几个阶段"></a>关于程序员的几个阶段</h2><p>每个程序员、或者说每个工作者都应该有自己的职业规划，如果看到这里的朋友没有自己的职业规划，希望你可以思考一下自己的将来。<br>LZ常常思考自己的未来,鉴于文笔拙劣，阅历浅薄。以下内容摘录于互联网，LZ拿出来，自勉、共勉之。</p>
-<h2 id="第一阶段：三年"><a href="#第一阶段：三年" class="headerlink" title="第一阶段：三年"></a>第一阶段：三年</h2><p>我认为三年对于程序员来说是第一个门槛，这个阶段将会淘汰掉一批不适合写代码的人。这一阶段，我们走出校园，迈入社会，成为一名程序员，正式从书本上的内容迈向真正的企业级开发。我们知道如何团队协作、如何使用项目管理工具、项目版本如何控制、我们写的代码如何测试如何在线上运行等等，积累了一定的开发经验，也对代码有了一定深入的认识，是一个比较纯粹的Coder的阶段</p>
-<h2 id="第二阶段：五年"><a href="#第二阶段：五年" class="headerlink" title="第二阶段：五年"></a>第二阶段：五年</h2><p>五年又是区分程序员的第二个门槛。有些人在三年里，除了完成工作，在空余时间基本不会研究别的东西，这些人永远就是个Coder，年纪大一些势必被更年轻的人给顶替；有些人在三年里，除了写代码之外，还热衷于研究各种技术实现细节、看了N多好书、写一些博客、在Github上分享技术，这些人在五年后必然具备在技术上独当一面的能力并且清楚自己未来的发展方向，从一个Coder逐步走向系统分析师或是架构师，成为项目组中不可或缺的人物</p>
-<h2 id="第三阶段：十年"><a href="#第三阶段：十年" class="headerlink" title="第三阶段：十年"></a>第三阶段：十年</h2><p>十年又是另一个门槛了，转行或是继续做一名程序员就在这个节点上。如果在前几年就抱定不转行的思路并且为之努力的话，那么在十年的这个节点上，有些人必然成长为一名对行业有着深入认识、对技术有着深入认识、能从零开始对一个产品进行分析的程序员，这样的人在公司基本担任的都是CTO、技术专家、首席架构师等最关键的职位，这对于自己绝对是一件荣耀的事，当然老板在经济上也绝不会亏待你</p>
-<h2 id="工作浅谈"><a href="#工作浅谈" class="headerlink" title="工作浅谈"></a>工作浅谈</h2><p>我认为，随着你工作年限的增长、对生活对生命认识的深入，应当不断思考三个问题：<br>1、我到底适不适合当一名程序员？<br>2、我到底应不应该一辈子以程序员为职业？<br>3、我对编程到底持有的是一种什么样的态度，是够用就好呢还是不断研究？<br>最终，明确自己的职业规划，对自己的规划负责并为之努力。</p>
-<p>关于项目经验<br>LZ在网上经常看到一些别的朋友有提出项目经验的问题，依照LZ面试的感觉来说，面试主要看几点：项目经验+基本技术+个人潜力（也就是值不值得培养）。</p>
-<p>关于项目经验，我认为并发编程网的创始人方腾飞老师讲的一段话非常好：<br>介绍产品时面试官会考察应聘者的沟通能力和思考能力，我们大部分情况都是做产品的一个功能或一个模块，但是即使是这样，自己有没有把整个系统架构或产品搞清楚，并能介绍清楚，为什么做这个系统？这个系统的价值是什么？这个系统有哪些功能？优缺点有哪些？如果让你重新设计这个系统你会如何设计？</p>
-<p>我觉得这就已经足以概括了。也许你仅仅工作一年，也许你做的是项目中微不足道的模块，当然这些一定是你的劣势且无法改变，但是如何弥补这个劣势，从方老师的话中我总结几点：<br>1、明确你的项目到底是做什么的，有哪些功能<br>2、明确你的项目的整体架构，在面试的时候能够清楚地画给面试官看并且清楚地指出从哪里调用到哪里、使用什么方式调用<br>3、明确你的模块在整个项目中所处的位置及作用<br>4、明确你的模块用到了哪些技术，更好一些的可以再了解一下整个项目用到了哪些技术</p>
-<p>在你无法改变自己的工作年限、自己的不那么有说服力的项目经验的情况下（这一定是扣分项），可以通过这种方式来一定程度上地弥补并且增进面试官对你的好感度。</p>
-<h2 id="关于奔三程序员之后转行的反驳。"><a href="#关于奔三程序员之后转行的反驳。" class="headerlink" title="关于奔三程序员之后转行的反驳。"></a>关于奔三程序员之后转行的反驳。</h2><p>讲到了奔三程序员的困惑，大致说的是三十岁之后程序员要转行之类的云云.<br><img src="http://zhoujian.lol/images/640.png" alt="image"></p>
+            <h2 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h2><p>假设要实现两个“表”的join操作，其中一个表数据量小，一个表很大，这种场景在实际中非常常见，比如“订单日志” join “产品信息”</p>
+<h2 id="原理阐述"><a href="#原理阐述" class="headerlink" title="原理阐述"></a>原理阐述</h2><p>适用于关联表中有小表的情形；<br>可以将小表分发到所有的map节点，这样，map节点就可以在本地对自己所读到的大表数据进行join并输出最终结果<br>可以大大提高join操作的并发度，加快处理速度</p>
+<h2 id="技术"><a href="#技术" class="headerlink" title="技术"></a>技术</h2><p>先在mapper类中预先定义好小表，进行join并用distributedcache机制将小表的数据分发到每一个maptask执行节点，从而每一个maptask节点可以从本地加载到小表的数据，进而在本地即可实现join</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 之前的OrderJoinProductJob有缺点：这种方式中，join的操作是在reduce阶段完成，reduce端的处理压力太大，map节点的运算负载则很低，资源利用率不高，且在reduce阶段极易产生数据倾斜</div><div class="line"></div><div class="line">	解决方案： map端join实现方式</div><div class="line">	原理阐述：</div><div class="line">	适用于关联表中有小表的情形；</div><div class="line">	可以将小表分发到所有的map节点，这样，map节点就可以在本地对自己所读到的大表数据进行join并输出最终结果，可以大大提高join操作的并发度，加快处理速度</div><div class="line">	技术：</div><div class="line">	一次加载数据库或者用distributedcache，在mapper类中预先定义好小表，进行join 不用reducer</div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月28日 下午8:01:49</div><div class="line"> */</div><div class="line">public class MapSideJoinJob &#123;</div><div class="line"> </div><div class="line">	static class MapSideJoinMapper extends Mapper&lt;LongWritable, Text, Text, NullWritable&gt;&#123;</div><div class="line">		// 用一个hashmap来加载保存产品信息表</div><div class="line">		Map&lt;String, String&gt; pdInfoMap = new HashMap&lt;String, String&gt;();</div><div class="line">		Text k = new Text();</div><div class="line">		//setup方法是在maptask处理数据之前调用一次 可以用来做一些初始化工作</div><div class="line">		@Override</div><div class="line">		protected void setup(</div><div class="line">				Mapper&lt;LongWritable, Text, Text, NullWritable&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			//从缓存中读取加载的文件 </div><div class="line">			BufferedReader bReader = new BufferedReader(new InputStreamReader(new FileInputStream(&quot;pdts.txt&quot;)));</div><div class="line">			String line;</div><div class="line">			while(StringUtils.isNotBlank(line = bReader.readLine()))&#123;</div><div class="line">				String[] fields = line.split(&quot;,&quot;);</div><div class="line">				pdInfoMap.put(fields[0], fields[1]);</div><div class="line">			&#125;</div><div class="line">			bReader.close();</div><div class="line">		&#125;</div><div class="line">		@Override</div><div class="line">		protected void map(LongWritable key, Text value,</div><div class="line">				Mapper&lt;LongWritable, Text, Text, NullWritable&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			String line = value.toString();</div><div class="line">			String[] fields = line.split(&quot;,&quot;);</div><div class="line">			String pName = pdInfoMap.get(fields[2]);</div><div class="line">			k.set(line + &quot;\t&quot; + pName);</div><div class="line">			context.write(k, NullWritable.get());</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) throws IOException, URISyntaxException, ClassNotFoundException, InterruptedException &#123;</div><div class="line">		Configuration cf= new Configuration();</div><div class="line">		Job job = Job.getInstance(cf);</div><div class="line">		FileSystem fs = FileSystem.get(cf);</div><div class="line">		</div><div class="line">		job.setJarByClass(MapSideJoinMapper.class);</div><div class="line">		</div><div class="line">		//设置job所需要的map业务类</div><div class="line">		job.setMapperClass(MapSideJoinMapper.class);</div><div class="line">		</div><div class="line">		//设置最终输出kv类型</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(NullWritable.class);</div><div class="line">		</div><div class="line">		//指定job数据源目录和输出结果目录</div><div class="line">		FileInputFormat.setInputPaths(job, new Path(args[0]));</div><div class="line">		Path outPath = new Path(args[1]);</div><div class="line">		if (fs.exists(outPath)) &#123;</div><div class="line">			fs.delete(outPath, true);</div><div class="line">		&#125;</div><div class="line">		FileOutputFormat.setOutputPath(job, outPath);</div><div class="line">		</div><div class="line">		//指定需要普通缓存的文件到所有的maptask工作目录</div><div class="line">		job.addCacheFile(new URI(&quot;file:/C:/Users/zhoujian/workspace/bigData_hadoop/ordersToP/pdts.txt&quot;));//?路径问题待解决????</div><div class="line">		</div><div class="line">		//map端join的逻辑不需要reduce阶段，设置reducetask数量为0</div><div class="line">		job.setNumReduceTasks(0);</div><div class="line">		</div><div class="line">		//提交运行</div><div class="line">		boolean b = job.waitForCompletion(true);</div><div class="line">		System.exit(b?0:1);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div></pre></td><td class="code"><pre><div class="line">public class InfoBean implements Writable &#123;</div><div class="line"></div><div class="line">	private int oId;</div><div class="line">	private String date;</div><div class="line">	private String pid;</div><div class="line">	private int amount;</div><div class="line">	private String pname;</div><div class="line">	</div><div class="line">	// flag=0表示这个对象是封装订单表记录</div><div class="line">	// flag=1表示这个对象是封装产品信息记录</div><div class="line">	private String flag;</div><div class="line"></div><div class="line">	public String getFlag() &#123;</div><div class="line">		return flag;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setFlag(String flag) &#123;</div><div class="line">		this.flag = flag;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	</div><div class="line">	//反序列化</div><div class="line">	@Override</div><div class="line">	public void readFields(DataInput in) throws IOException &#123;</div><div class="line">		this.oId = in.readInt();</div><div class="line">		this.date = in.readUTF();</div><div class="line">		this.pid = in.readUTF();</div><div class="line">		this.amount = in.readInt();</div><div class="line">		this.pname = in.readUTF();</div><div class="line">		this.flag = in.readUTF();</div><div class="line">		</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	//序列化</div><div class="line">	@Override</div><div class="line">	public void write(DataOutput out) throws IOException &#123;</div><div class="line">		out.writeInt(oId);</div><div class="line">		out.writeUTF(date);</div><div class="line">		out.writeUTF(pid);</div><div class="line">		out.writeInt(amount);</div><div class="line">		out.writeUTF(pname);</div><div class="line">		out.writeUTF(flag);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setInfo(int oId,String date,String pid,int amount,String pname,String flag)&#123;</div><div class="line">		this.oId = oId;</div><div class="line">		this.date = date;</div><div class="line">		this.pid = pid;</div><div class="line">		this.amount = amount;</div><div class="line">		this.pname = pname;</div><div class="line">		this.flag = flag;</div><div class="line">	&#125;</div><div class="line">	@Override</div><div class="line">	public String toString() &#123;</div><div class="line">		return oId + &quot;\t&quot;+date +&quot;\t&quot; + pid +&quot;\t&quot; + amount +&quot;\t&quot; + pname;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getoId() &#123;</div><div class="line">		return oId;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setoId(int oId) &#123;</div><div class="line">		this.oId = oId;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getDate() &#123;</div><div class="line">		return date;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setDate(String date) &#123;</div><div class="line">		this.date = date;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public String getPid() &#123;</div><div class="line">		return pid;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setPid(String pid) &#123;</div><div class="line">		this.pid = pid;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public int getAmount() &#123;</div><div class="line">		return amount;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setAmount(int amount) &#123;</div><div class="line">		this.amount = amount;</div><div class="line">	&#125;</div><div class="line"></div><div class="line"></div><div class="line">	public String getPname() &#123;</div><div class="line">		return pname;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setPname(String pname) &#123;</div><div class="line">		this.pname = pname;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/28/mapreduce参数优化/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="zhoujian">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/uploads/hexo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZhouJian`s Notes">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZhouJian`s Notes" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/12/28/mapreduce参数优化/" itemprop="url">
+                  mapreduce参数优化
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-28T20:46:01+08:00">
+                2016-12-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <!--/noindex-->
+        
+          
+            <h2 id="资源相关参数"><a href="#资源相关参数" class="headerlink" title="资源相关参数"></a>资源相关参数</h2><p>//以下参数是在用户自己的mr应用程序中配置就可以生效<br>(1) mapreduce.map.memory.mb: 一个Map Task可使用的资源上限（单位:MB），默认为1024。如果Map Task实际使用的资源量超过该值，则会被强制杀死。<br>(2) mapreduce.reduce.memory.mb: 一个Reduce Task可使用的资源上限（单位:MB），默认为1024。如果Reduce Task实际使用的资源量超过该值，则会被强制杀死。<br>(3) mapreduce.map.java.opts: Map Task的JVM参数，你可以在此配置默认的java heap size等参数, e.g.<br>“-Xmx1024m -verbose:gc -Xloggc:/tmp/@taskid@.gc” （@taskid@会被Hadoop框架自动换为相应的taskid）, 默认值: “”<br>(4) mapreduce.reduce.java.opts: Reduce Task的JVM参数，你可以在此配置默认的java heap size等参数, e.g.<br>“-Xmx1024m -verbose:gc -Xloggc:/tmp/@taskid@.gc”, 默认值: “”<br>(5) mapreduce.map.cpu.vcores: 每个Map task可使用的最多cpu core数目, 默认值: 1<br>(6) mapreduce.reduce.cpu.vcores: 每个Reduce task可使用的最多cpu core数目, 默认值: 1</p>
+<p>//应该在yarn启动之前就配置在服务器的配置文件中才能生效<br>(7) yarn.scheduler.minimum-allocation-mb      1024   给应用程序container分配的最小内存<br>(8) yarn.scheduler.maximum-allocation-mb      8192    给应用程序container分配的最大内存<br>(9) yarn.scheduler.minimum-allocation-vcores    1<br>(10)yarn.scheduler.maximum-allocation-vcores    32<br>(11)yarn.nodemanager.resource.memory-mb   8192 (总内存)<br>//shuffle性能优化的关键参数，应在yarn启动之前就配置好<br>(12) mapreduce.task.io.sort.mb   100         //shuffle的环形缓冲区大小，默认100m<br>(13) mapreduce.map.sort.spill.percent   0.8    //环形缓冲区溢出的阈值，默认80%</p>
+<h2 id="容错相关参数"><a href="#容错相关参数" class="headerlink" title="容错相关参数"></a>容错相关参数</h2><p>(1) mapreduce.map.maxattempts: 每个Map Task最大重试次数，一旦重试参数超过该值，则认为Map Task运行失败，默认值：4。<br>(2) mapreduce.reduce.maxattempts: 每个Reduce Task最大重试次数，一旦重试参数超过该值，则认为Map Task运行失败，默认值：4。<br>(3) mapreduce.map.failures.maxpercent: 当失败的Map Task失败比例超过该值为，整个作业则失败，默认值为0. 如果你的应用程序允许丢弃部分输入数据，则该该值设为一个大于0的值，比如5，表示如果有低于5%的Map Task失败（如果一个Map Task重试次数超过mapreduce.map.maxattempts，则认为这个Map Task失败，其对应的输入数据将不会产生任何结果），整个作业扔认为成功。<br>(4) mapreduce.reduce.failures.maxpercent: 当失败的Reduce Task失败比例超过该值为，整个作业则失败，默认值为0.<br>(5) mapreduce.task.timeout: Task超时时间，经常需要设置的一个参数，该参数表达的意思为：如果一个task在一定时间内没有任何进入，即不会读取新的数据，也没有输出数据，则认为该task处于block状态，可能是卡住了，也许永远会卡主，为了防止因为用户程序永远block住不退出，则强制设置了一个该超时时间（单位毫秒），默认是300000。如果你的程序对每条输入数据的处理时间过长（比如会访问数据库，通过网络拉取数据等），建议将该参数调大，该参数过小常出现的错误提示是“AttemptID:attempt_14267829456721_123456_m_000224_0 Timed out after 300 secsContainer killed by the ApplicationMaster.”。</p>
+<h2 id="效率和稳定性相关参数"><a href="#效率和稳定性相关参数" class="headerlink" title="效率和稳定性相关参数"></a>效率和稳定性相关参数</h2><p>(1) mapreduce.map.speculative: 是否为Map Task打开推测执行机制，默认为false(一般不建议开启，弄不好的话 效率更低)<br>(2) mapreduce.reduce.speculative: 是否为Reduce Task打开推测执行机制，默认为false<br>(3) mapreduce.job.user.classpath.first &amp; mapreduce.task.classpath.user.precedence：当同一个class同时出现在用户jar包和hadoop jar中时，优先使用哪个jar包中的class，默认为false，表示优先使用hadoop jar中的class。<br>(4) mapreduce.input.fileinputformat.split.minsize: FileInputFormat做切片时的最小切片大小，(5)mapreduce.input.fileinputformat.split.maxsize:  FileInputFormat做切片时的最大切片大小<br>(切片的默认大小就等于blocksize，即 134217728)</p>
 
           
         
@@ -1889,6 +1808,10 @@ public void setData() throws KeeperException, InterruptedException{
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1926,7 +1849,7 @@ public void setData() throws KeeperException, InterruptedException{
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">10</span>
+              <span class="site-state-item-count">20</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -1943,7 +1866,7 @@ public void setData() throws KeeperException, InterruptedException{
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

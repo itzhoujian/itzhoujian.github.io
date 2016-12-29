@@ -1,0 +1,881 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="baidu-site-verification" content="q4W04Danl8" />
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Monda:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.0" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="partitioner,compareTo," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="ZhouJian`s Notes" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.0" />
+
+
+
+
+
+
+<meta name="description" content="原创">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义partitioner和排序-流量统计分析">
+<meta property="og:url" content="http://zhoujian.lol/2016/12/29/自定义partitioner和排序-流量统计分析/index.html">
+<meta property="og:site_name" content="ZhouJian`s Notes">
+<meta property="og:description" content="原创">
+<meta property="og:updated_time" content="2016-12-29T14:01:14.459Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自定义partitioner和排序-流量统计分析">
+<meta name="twitter:description" content="原创">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"always"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://zhoujian.lol/2016/12/29/自定义partitioner和排序-流量统计分析/"/>
+
+
+
+
+
+  <title> 自定义partitioner和排序-流量统计分析 | ZhouJian`s Notes </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?87015241cdc2cbc6e8a1dcda9e96df68";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">ZhouJian`s Notes</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">胡编乱写</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+              <i class="menu-item-icon fa fa-search fa-fw"></i> <br />
+            
+            搜索
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+  <link itemprop="mainEntityOfPage" href="http://zhoujian.lol/2016/12/29/自定义partitioner和排序-流量统计分析/">
+
+  <span style="display:none" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="zhoujian">
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="/uploads/hexo.jpg">
+  </span>
+
+  <span style="display:none" itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="ZhouJian`s Notes">
+    <span style="display:none" itemprop="logo" itemscope itemtype="http://schema.org/ImageObject">
+      <img style="display:none;" itemprop="url image" alt="ZhouJian`s Notes" src="">
+    </span>
+  </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                自定义partitioner和排序-流量统计分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2016-12-29T21:50:45+08:00">
+                2016-12-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+              <span class="post-meta-divider">|</span>
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/大数据/" itemprop="url" rel="index">
+                    <span itemprop="name">大数据</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+
+          
+              <div class="post-description">
+                  原创
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 需求： </div><div class="line"> * 1、对流量日志中的用户统计总上、下行流量、总流量。 </div><div class="line"> * 2、按照总流量大小倒序排序。 </div><div class="line"> * 3、按照手机号的归属地，将结果数据输出到不同的省份文件中。(2,3 不能同时进行全局排序？)</div><div class="line"> * 技术点：</div><div class="line"> * 1、自定义javaBean用来在mapreduce中充当value，javaBean要实现WritableComparable接口，覆写compareTo方法实现排序逻辑。</div><div class="line"> * 2、需要2个job，第二个job读入第一个job输出，将flowBean作为第二个job的mmap的key。</div><div class="line"> * 3、自定义Partitioner，根据自定义的partition逻辑设置相应数量的reduce task。</div><div class="line"> * </div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月27日 下午2:54:00</div><div class="line"> */</div><div class="line">public class FlowBean implements WritableComparable&lt;FlowBean&gt; &#123;</div><div class="line"></div><div class="line">	private long upFlow;// 上行流量</div><div class="line">	private long downFlow;// 下行流量</div><div class="line">	private long sumFlow; // 总流量</div><div class="line"></div><div class="line">	public FlowBean(long upFlow, long downFlow) &#123;</div><div class="line">		this.upFlow = upFlow;</div><div class="line">		this.downFlow = downFlow;</div><div class="line">		this.sumFlow = upFlow + downFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	//反序列化时需要反射调用空参数的构造方法</div><div class="line">	public FlowBean() &#123;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	// 反序列化</div><div class="line">	@Override</div><div class="line">	public void readFields(DataInput in) throws IOException &#123;</div><div class="line">		upFlow = in.readLong();</div><div class="line">		downFlow = in.readLong();</div><div class="line">		sumFlow = in.readLong();</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	// 序列化</div><div class="line">	@Override</div><div class="line">	public void write(DataOutput out) throws IOException &#123;</div><div class="line">		out.writeLong(upFlow);</div><div class="line">		out.writeLong(downFlow);</div><div class="line">		out.writeLong(sumFlow);;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public int compareTo(FlowBean o) &#123;</div><div class="line">		return this.sumFlow&gt;o.getSumFlow()?-1:1;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	@Override</div><div class="line">	public String toString() &#123;</div><div class="line">		return upFlow + &quot;\t&quot; + downFlow + &quot;\t&quot; + sumFlow;</div><div class="line">	&#125;</div><div class="line">	public void set(long upFlow, long downFlow) &#123;</div><div class="line">		this.upFlow = upFlow;</div><div class="line">		this.downFlow = downFlow;</div><div class="line">		this.sumFlow = upFlow + downFlow;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public Long getUpFlow() &#123;</div><div class="line">		return upFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setUpFlow(long upFlow) &#123;</div><div class="line">		this.upFlow = upFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public Long getDownFlow() &#123;</div><div class="line">		return downFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setDownFlow(long downFlow) &#123;</div><div class="line">		this.downFlow = downFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public Long getSumFlow() &#123;</div><div class="line">		return sumFlow;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	public void setSumFlow(long sumFlow) &#123;</div><div class="line">		this.sumFlow = sumFlow;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">public class FlowCountJob &#123;</div><div class="line"></div><div class="line">	</div><div class="line">	static class FlowCountMapper extends Mapper&lt;LongWritable, Text, Text, FlowBean&gt;&#123;</div><div class="line">		@Override</div><div class="line">		protected void map(LongWritable key, Text value,</div><div class="line">				Mapper&lt;LongWritable, Text, Text, FlowBean&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			String[] fields = value.toString().split(&quot;\t&quot;); //将一行内容转换成String切分成字段</div><div class="line">			String phoneNum = fields[1]; //取出手机号</div><div class="line">			long upFlow = Long.parseLong(fields[fields.length-3]);//取出上行流量</div><div class="line">			long downFlow = Long.parseLong(fields[fields.length-2]); //取出下行流量</div><div class="line">			context.write(new Text(phoneNum), new FlowBean(upFlow,downFlow));</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	static class FlowCountReduce extends Reducer&lt;Text, FlowBean, Text, FlowBean&gt;&#123;</div><div class="line">		</div><div class="line">		@Override</div><div class="line">		protected void reduce(Text key, Iterable&lt;FlowBean&gt; values,</div><div class="line">				Reducer&lt;Text, FlowBean, Text, FlowBean&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			//reduce阶段会拿到&lt;183323,bean1&gt;&lt;183323,bean2&gt;&lt;183323,bean3&gt;&lt;183323,bean4&gt;.......</div><div class="line">			long sum_upFlow = 0;</div><div class="line">			long sum_downFlow = 0;</div><div class="line">			//遍历所有的bean将上行流量、下行流量进行累加</div><div class="line">			for (FlowBean flowBean : values) &#123;</div><div class="line">				sum_downFlow = flowBean.getDownFlow();</div><div class="line">				sum_upFlow = flowBean.getUpFlow();</div><div class="line">			&#125;</div><div class="line">			context.write(key, new FlowBean(sum_upFlow,sum_downFlow));</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException, URISyntaxException &#123;</div><div class="line">		Configuration cf = new Configuration();</div><div class="line">		FileSystem fs =FileSystem.newInstance(cf);</div><div class="line">		//集群模式运行</div><div class="line">		////客户端去操作hdfs时，是有一个用户身份的，默认情况下hdfs客户端api会从jvm中获取一个参数 -DHADOOP_USER_NAME</div><div class="line">		cf.set(&quot;mapreduce.framework.name&quot;,&quot;local&quot;);</div><div class="line">//		cf.set(&quot;yarn.resourcemanager.hostname&quot;, &quot;hadoop1&quot;);</div><div class="line">//		cf.set(&quot;fs.defaultFS&quot;, &quot;hdfs://hadoop1:9000/&quot;);</div><div class="line">		</div><div class="line">		Job job = Job.getInstance(cf);</div><div class="line">		job.setJarByClass(FlowCountJob.class);//指定本程序jar包所在的路径</div><div class="line">		</div><div class="line">		//指定本程序job要使用的mapper/reduce业务类</div><div class="line">		job.setMapperClass(FlowCountMapper.class);</div><div class="line">		job.setReducerClass(FlowCountReduce.class);</div><div class="line">		</div><div class="line">		//指定自定义分区和响应分区数据量的reduce task</div><div class="line">		job.setPartitionerClass(ProvincePartitioner.class);</div><div class="line">		job.setNumReduceTasks(5);</div><div class="line">		</div><div class="line">		//指定map输出的数据的kv类型</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(FlowBean.class);</div><div class="line">		</div><div class="line">		//指定最终输出的数据kv类型</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(FlowBean.class);</div><div class="line">		</div><div class="line">		//指定job输入原始目录和输出结果目录</div><div class="line">		FileInputFormat.setInputPaths(job, new Path(args[0]));</div><div class="line">		Path outPath = new Path(args[1]);</div><div class="line">		//判断目录是否存在 存在则删除</div><div class="line">		if (fs.exists(outPath)) &#123;</div><div class="line">			fs.delete(outPath, true);</div><div class="line">		&#125;</div><div class="line">		FileOutputFormat.setOutputPath(job, outPath);</div><div class="line">		</div><div class="line">		//将job中配置的相关参数，以及job所用的java类所在的jar包，提交给yarn去运行</div><div class="line">		/*job.submit();*/</div><div class="line">		boolean b = job.waitForCompletion(true);</div><div class="line">		System.exit(b?0:1);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 读取统计好的数据进行排序</div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月27日 下午8:20:45</div><div class="line"> */</div><div class="line">public class FlowCountSortJob &#123;</div><div class="line"></div><div class="line">	static class FlowCountSortMapper extends Mapper&lt;LongWritable, Text, FlowBean, Text&gt;&#123;</div><div class="line">		</div><div class="line">		FlowBean bean=new FlowBean();</div><div class="line">		Text v = new Text();</div><div class="line">		</div><div class="line">		@Override</div><div class="line">		protected void map(LongWritable key, Text value,</div><div class="line">				Mapper&lt;LongWritable, Text, FlowBean, Text&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			String[] fields = value.toString().split(&quot;\t&quot;);</div><div class="line">			String phoneNbr = fields[0];</div><div class="line">			long sum_upFlow = Long.parseLong(fields[1]);//上行流量</div><div class="line">			long sum_downFlow = Long.parseLong(fields[2]);//下行流量</div><div class="line">			bean.set(sum_upFlow,sum_downFlow);</div><div class="line">			v.set(phoneNbr);</div><div class="line">			context.write(bean, v);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	static class FlowCountSortReducer extends Reducer&lt;FlowBean, Text, Text, FlowBean&gt;&#123;</div><div class="line">		@Override</div><div class="line">		protected void reduce(FlowBean k, Iterable&lt;Text&gt; v,</div><div class="line">				Reducer&lt;FlowBean, Text, Text, FlowBean&gt;.Context context)</div><div class="line">				throws IOException, InterruptedException &#123;</div><div class="line">			context.write(v.iterator().next(), k);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException &#123;</div><div class="line">		Configuration cf = new Configuration();</div><div class="line">		//集群模式</div><div class="line">//		cf.set(&quot;mapreduce.framework.name&quot;, &quot;yarn&quot;);</div><div class="line">//		cf.set(&quot;yarn.resourcemanager.hostname&quot;, &quot;hadoop1&quot;);</div><div class="line">		FileSystem fs =FileSystem.newInstance(cf);</div><div class="line">		Job job = Job.getInstance(cf);</div><div class="line">		</div><div class="line">		//指定本程序jar包所在的路径</div><div class="line">		job.setJarByClass(FlowCountSortJob.class);</div><div class="line">		</div><div class="line">		//指定本程序job使用的mapper/reduce业务类</div><div class="line">		job.setMapperClass(FlowCountSortMapper.class);</div><div class="line">		job.setReducerClass(FlowCountSortReducer.class);</div><div class="line">		</div><div class="line">		//指定自定义分区和响应分区数据量的reduce task</div><div class="line">		job.setPartitionerClass(ProvincePartitioner.class);</div><div class="line">		job.setNumReduceTasks(5);</div><div class="line">		</div><div class="line">		//指定mapper输出数据kv类型</div><div class="line">		job.setMapOutputKeyClass(FlowBean.class);</div><div class="line">		job.setMapOutputValueClass(Text.class);</div><div class="line">		</div><div class="line">		//指定最终输出数据kv类型</div><div class="line">		job.setOutputKeyClass(Text.class);</div><div class="line">		job.setOutputValueClass(FlowBean.class);</div><div class="line">		</div><div class="line">		//指定job输入原始目录和输出结果目录</div><div class="line">		FileInputFormat.setInputPaths(job, new Path(args[0]));</div><div class="line">		Path outPath = new Path(args[1]);</div><div class="line">		if (fs.exists(outPath)) &#123;</div><div class="line">			fs.delete(outPath, true);</div><div class="line">		&#125;</div><div class="line">		FileOutputFormat.setOutputPath(job, outPath);</div><div class="line">		</div><div class="line">		//提交运行</div><div class="line">		boolean b = job.waitForCompletion(true);</div><div class="line">		System.exit(b?0:1);</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">/**</div><div class="line"> * 自定义分区</div><div class="line"> * @author zj</div><div class="line"> * @date 2016年12月29日 下午9:35:14</div><div class="line"> */</div><div class="line">public class ProvincePartitioner extends Partitioner&lt;Text, FlowBean&gt;&#123;</div><div class="line"></div><div class="line">	public static HashMap&lt;String, Integer&gt; proviceDict = new HashMap&lt;String, Integer&gt;();</div><div class="line">	static&#123;</div><div class="line">			proviceDict.put(&quot;136&quot;, 0);</div><div class="line">			proviceDict.put(&quot;137&quot;, 1);</div><div class="line">			proviceDict.put(&quot;138&quot;, 2);</div><div class="line">			proviceDict.put(&quot;139&quot;, 3);</div><div class="line">			System.out.println(&quot;||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||\\\\&quot;);</div><div class="line">	&#125;</div><div class="line">	@Override</div><div class="line">	public int getPartition(Text k, FlowBean v, int partitionNum ) &#123;</div><div class="line">		String prefix = k.toString().substring(0,3);</div><div class="line">		Integer proviceId = proviceDict.get(prefix);</div><div class="line">		return proviceId == null?4:proviceId;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/uploads/wechat-reward-image.png" alt="zhoujian WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/uploads/alipay-reward-image.png" alt="zhoujian Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/partitioner/" rel="tag"># partitioner</a>
+          
+            <a href="/tags/compareTo/" rel="tag"># compareTo</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/29/自定义inputFormat/" rel="next" title="自定义inputFormat">
+                <i class="fa fa-chevron-left"></i> 自定义inputFormat
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/29/自定义combine/" rel="prev" title="自定义combine">
+                自定义combine <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/hexo.jpg"
+               alt="zhoujian" />
+          <p class="site-author-name" itemprop="name">zhoujian</p>
+          <p class="site-description motion-element" itemprop="description">如果你不是官二代、富二代、星二代，那么请记住：勤奋才是改变你命运的唯一捷径。</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">20</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/itzhoujian" target="_blank" title="GitHub"  rel="external nofollow">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://bbs.pythontab.com/" target="_blank" title="Python社区"  rel="external nofollow">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  Python社区
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">zhoujian</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io" rel="external nofollow">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" rel="external nofollow">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+	
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+      search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+      'use strict';
+      $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+          // get the contents from search data
+          isfetched = true;
+          $('.popup').detach().appendTo('.header-inner');
+          var datas = $( "entry", xmlResponse ).map(function() {
+            return {
+              title: $( "title", this ).text(),
+              content: $("content",this).text(),
+              url: $( "url" , this).text()
+            };
+          }).get();
+          var $input = document.getElementById(search_id);
+          var $resultContent = document.getElementById(content_id);
+          $input.addEventListener('input', function(){
+            var matchcounts = 0;
+            var str='<ul class=\"search-result-list\">';
+            var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+            $resultContent.innerHTML = "";
+            if (this.value.trim().length > 1) {
+              // perform local searching
+              datas.forEach(function(data) {
+                var isMatch = false;
+                var content_index = [];
+                var data_title = data.title.trim().toLowerCase();
+                var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                var data_url = decodeURIComponent(data.url);
+                var index_title = -1;
+                var index_content = -1;
+                var first_occur = -1;
+                // only match artiles with not empty titles and contents
+                if(data_title != '') {
+                  keywords.forEach(function(keyword, i) {
+                    index_title = data_title.indexOf(keyword);
+                    index_content = data_content.indexOf(keyword);
+                    if( index_title >= 0 || index_content >= 0 ){
+                      isMatch = true;
+                      if (i == 0) {
+                        first_occur = index_content;
+                      }
+                    }
+
+                  });
+                }
+                // show search results
+                if (isMatch) {
+                  matchcounts += 1;
+                  str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                  var content = data.content.trim().replace(/<[^>]+>/g,"");
+                  if (first_occur >= 0) {
+                    // cut out 100 characters
+                    var start = first_occur - 20;
+                    var end = first_occur + 80;
+                    if(start < 0){
+                      start = 0;
+                    }
+                    if(start == 0){
+                      end = 50;
+                    }
+                    if(end > content.length){
+                      end = content.length;
+                    }
+                    var match_content = content.substring(start, end);
+                    // highlight all keywords
+                    keywords.forEach(function(keyword){
+                      var regS = new RegExp(keyword, "gi");
+                      match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                    });
+
+                    str += "<p class=\"search-result\">" + match_content +"...</p>"
+                  }
+                  str += "</li>";
+                }
+              })};
+            str += "</ul>";
+            if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+            if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+            $resultContent.innerHTML = str;
+          });
+          proceedsearch();
+        }
+      });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+
+  
+
+  
+
+  
+
+
+</body>
+</html>
